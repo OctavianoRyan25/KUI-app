@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Note extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'topic', 'content','event_id'
+    ];
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 }

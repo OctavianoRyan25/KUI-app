@@ -18,6 +18,11 @@ class Event extends Model
         return $this->belongsToMany(Peserta::class, 'event_peserta')->withPivot('signature', 'is_present')->withTimestamps();
     }
 
+    public function note()
+    {
+        return $this->hasOne(Note::class);
+    }
+
     // Find Event by UUID
     public static function getEventByUUID($uuid)
     {

@@ -40,7 +40,7 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::with('pesertas')->find($id);
+        $event = Event::with('pesertas', 'note')->find($id);
         // @dd($event->toJson());
         return view('admin.detail_event', compact('event'));
     }
@@ -68,6 +68,10 @@ class EventController extends Controller
             DB::beginTransaction();
             $event = Event::create($validatedData);
             $event->pesertas()->attach($validatedData['peserta']);
+            $event->note()->create([
+                'topic' => null,
+                'content' => null
+            ]);
 
             // $qrUrl = route('event.qr', ['uuid' => $event->uuid]);
             DB::commit();

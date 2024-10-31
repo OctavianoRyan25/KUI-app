@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\NoteController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
@@ -44,6 +45,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/peserta-rapat', [EventController::class, 'tambahPesertaRapat'])->name('admin.pesertaRapat.store');
     Route::delete('/peserta-rapat/{id}', [EventController::class, 'deletePesetaRapat'])->name('admin.pesertaRapat.delete');
 
+    Route::get('/note/{id}', [NoteController::class, 'show'])->name('admin.note');
+    Route::put('/note/{id}', [NoteController::class, 'update'])->name('admin.note.update');
+
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
@@ -57,4 +61,8 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('/link', function () {
     Artisan::call('storage:link');
     return 'Symlink has been created';
+});
+
+Route::get('/editor', function () {
+    return view('editor');
 });

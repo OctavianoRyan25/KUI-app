@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->string('topic');
-            $table->text('content');
+            $table->string('topic')->nullable();
+            $table->text('content')->nullable();
+            $table->foreignId('event_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
