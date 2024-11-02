@@ -38,13 +38,13 @@ class LetterController extends Controller
         try {
             DB::beginTransaction();
             if ($request->hasFile('file1')) {
-                $validated['file1'] = $request->file('file1')->store('letters');
+                $validated['file1'] = $request->file('file1')->store('public/letters');
             }
             if ($request->hasFile('file2')) {
-                $validated['file2'] = $request->file('file2')->store('letters');
+                $validated['file2'] = $request->file('file2')->store('public/letters');
             }
             if ($request->hasFile('file3')) {
-                $validated['file3'] = $request->file('file3')->store('letters');
+                $validated['file3'] = $request->file('file3')->store('public/letters');
             }
             $validated['slug'] = Str::slug($validated['title']);
             Letter::create($validated);
@@ -77,8 +77,12 @@ class LetterController extends Controller
                 $pdf->useTemplate($tpl);
             }
         }
+        // check path storage/app/merged if exist
+        if (!file_exists(storage_path('app/merged'))) {
+            mkdir(storage_path('app/merged'), 0777, true);
+        }
 
-        $output = storage_path('app/letters/merged/' . $letter->slug . '.pdf');
+        $output = storage_path('app/merged/' . $letter->slug . '.pdf');
 
         $pdf->Output('F', $output);
 

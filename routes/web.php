@@ -56,6 +56,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::delete('/peserta/{id}', [PesertaController::class, 'destroy'])->name('admin.peserta.delete');
 
     Route::get('/letter', [LetterController::class, 'index'])->name('admin.letter.index');
+    Route::get('/letter/merge/{id}', [LetterController::class, 'mergePDF'])->name('admin.letter.merge');
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 
