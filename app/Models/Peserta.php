@@ -10,7 +10,7 @@ class Peserta extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'division', 'position'
+        'nip', 'name', 'bag', 'subbag', 'position'
     ];
 
     public function events()

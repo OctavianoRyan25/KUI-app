@@ -125,7 +125,13 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap">
-                    <label for="signature" class="block text-sm font-medium text-gray-700 mb-6">Tanda tangan</label>
+                    <label for="signature" class="block text-sm font-medium text-gray-700 mb-3">Tanda tangan</label>
+                    <p class="text-sm text-red-500 bg-red-50 border border-red-200 rounded-md px-3 py-2 w-full mb-6 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 me-1" fill="currentColor" class="bi bi-exclamation-square-fill" viewBox="0 0 16 16">
+                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+                        <span class="font-semibold">Perhatian:</span> Tanda tangan hanya dapat dilakukan sekali
+                    </p>
                     <canvas id="signaturePad" width="300" height="150" class="border rounded-md border-gray-300 mb-6 px-3"></canvas>
                 </div>
                 <div class="mt-4 space-x-2">

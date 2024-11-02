@@ -7,6 +7,8 @@ use App\Models\Peserta;
 use App\Http\Requests\StorePesertaRequest;
 use App\Http\Requests\UpdatePesertaRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PesertaController extends Controller
 {
@@ -35,9 +37,31 @@ class PesertaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nip' => 'required',
+            'name' => 'required',
+            'bag' => 'required',
+            'subbag' => 'required',
+            'position' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            Peserta::create($validatedData);
+            DB::commit();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Peserta berhasil ditambahkan',
+            ], 201);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal menambahkan peserta',
+            ], 500);
+        }
     }
 
     /**
@@ -75,8 +99,25 @@ class PesertaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Peserta $peserta)
+    public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $peserta = Peserta::find($id);
+            if(!$peserta){
+                Alert::toast('Peserta not found', 'error');
+                return redirect()->route('admin.peserta');
+            }
+            $peserta->delete();
+            DB::commit();
+            Alert::toast('Peserta deleted successfully', 'success');
+            // Redirect with query string
+            
+            return redirect()->to(url()->previous());
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::toast('Error deleting peserta', 'error');
+            return redirect()->route('admin.peserta');
+        }
     }
 }

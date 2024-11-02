@@ -49,6 +49,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/note/{id}', [NoteController::class, 'update'])->name('admin.note.update');
 
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
+    Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
+    Route::delete('/peserta/{id}', [PesertaController::class, 'destroy'])->name('admin.peserta.delete');
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 
