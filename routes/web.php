@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\LetterController;
 use App\Http\Controllers\Admin\NoteController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Controller;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AdminController::class, 'index'])->name('admin.home');
 Route::get('/attendance/{uuid}', [Controller::class, 'showAttendance'])->name('admin.attendance');
 Route::post('/attendance/{uuid}/save-signature', [Controller::class, 'saveSignature'])->name('admin.saveSignature');
+Route::get('/upload-letter', [LetterController::class, 'create'])->name('admin.uploadLetter.create');
+Route::post('/upload-letter', [LetterController::class, 'store'])->name('admin.uploadLetter.store');
 
 Route::get('/search-peserta', [Controller::class, 'searchPeserta'])->name('admin.searchPeserta');
 
@@ -51,6 +54,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
     Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
     Route::delete('/peserta/{id}', [PesertaController::class, 'destroy'])->name('admin.peserta.delete');
+
+    Route::get('/letter', [LetterController::class, 'index'])->name('admin.letter.index');
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 

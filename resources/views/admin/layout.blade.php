@@ -45,7 +45,7 @@
                 </div> --}}
                 <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/event') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/event">Event</a>
                 <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/peserta') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/peserta">Peserta</a>
-                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/merge-pdf') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/merge-pdf">Merge PDF</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/letter') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/letter">Letter</a>
                 <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="block w-full px-4 py-2 mt-2 text-sm font-semibold text-start text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">Logout</button>
