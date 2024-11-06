@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('letters', function (Blueprint $table) {
+        Schema::create('kermas', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('slug');
-            $table->string('kerma');
-            $table->string('mitra');
-            $table->string('file1')->nullable();
-            $table->string('file2')->nullable();
-            $table->string('file3')->nullable();
+            $table->string('name');
+            $table->string('tridharma');
+            $table->integer('tridharma_alias');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('letters');
+        Schema::dropIfExists('kermas');
     }
 };

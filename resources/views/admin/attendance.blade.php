@@ -49,9 +49,23 @@
     </div>
 
     <!-- Search Bar -->
-    <div class="mb-4">
-        <input type="text" id="searchInput" class="p-3 rounded-lg border border-gray-300 w-full" placeholder="Cari peserta..." onkeyup="searchParticipant()">
+    <div class="flex flex-wrap justify-between">
+        <div class="mb-4 w-full lg:w-5/6 ">
+            <input type="text" id="searchInput" class="p-3 rounded-lg border border-blue-300 w-full active:border-blue-900" placeholder="Cari peserta..." onkeyup="searchParticipant()">
+        </div>
+        <div class="mb-4 w-full lg:w-1/6 flex justify-end">
+            <div class="w-full lg:ms-3 text-center">
+                <a class="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition duration-200 inline-flex w-full justify-center" href="{{ $event->note->id }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" class="bi bi-file-earmark-post" viewBox="0 0 16 16">
+                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                        <path d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1-.5-.5"/>
+                    </svg>
+                    Notulensi
+                </a>
+            </div>
+        </div>
     </div>
+    
 
     <!-- Tabel Peserta -->
     <div class="overflow-x-auto rounded">

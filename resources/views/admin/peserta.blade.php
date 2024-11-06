@@ -25,7 +25,7 @@
     <div class="container mx-auto w-full px-4 py-8">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="font-bold text-3xl">Event</h1>
+                <h1 class="font-bold text-3xl">Peserta</h1>
             </div>
         </div>
 

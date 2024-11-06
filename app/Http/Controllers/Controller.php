@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Note;
 use App\Models\Peserta;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -15,7 +16,7 @@ class Controller extends BaseController
 
     public function showAttendance($uuid)
     {
-        $event = Event::with('pesertas')->where('uuid', $uuid)->first();
+        $event = Event::with('pesertas', 'note')->where('uuid', $uuid)->first();
 
         if (!$event) {
             abort(404, 'Event not found');
@@ -47,5 +48,18 @@ class Controller extends BaseController
         $pesertas = Peserta::where('name', 'like', '%' . $search . '%')
                             ->get(['id', 'name', 'position']);
         return response()->json($pesertas);
+    }
+    public function showNote($id){
+        $note = Note::with('event')->find($id);
+        $present = $note->event->pesertas()->where('is_present', true)->count();
+        $no_present = $note->event->pesertas()->where('is_present', false)->count();
+        $total_participant = $present + $no_present;
+        // dd($note);
+        return view('admin.note', [
+            'note' => $note,
+            'present' => $present,
+            'no_present' => $no_present,
+            'total_participant' => $total_participant,
+        ]);
     }
 }

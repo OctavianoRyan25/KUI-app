@@ -30,6 +30,8 @@ class LetterController extends Controller
     {
         $validated = request()->validate([
             'title' => 'required',
+            'kerma' => 'required',
+            'mitra' => 'required',
             'file1' => 'nullable|mimes:pdf|max:2048',
             'file2' => 'nullable|mimes:pdf|max:2048',
             'file3' => 'nullable|mimes:pdf|max:2048',
@@ -48,7 +50,7 @@ class LetterController extends Controller
             }
             $validated['slug'] = Str::slug($validated['title']);
             Letter::create($validated);
-            Alert::success('Success', 'Letter created successfully');
+            Alert::toast('Letter created successfully', 'success');
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\KermaController;
 use App\Http\Controllers\Admin\LetterController;
 use App\Http\Controllers\Admin\NoteController;
 use App\Http\Controllers\Admin\PesertaController;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AdminController::class, 'index'])->name('admin.home');
 Route::get('/attendance/{uuid}', [Controller::class, 'showAttendance'])->name('admin.attendance');
 Route::post('/attendance/{uuid}/save-signature', [Controller::class, 'saveSignature'])->name('admin.saveSignature');
+Route::get('/notulensi/{id}', [Controller::class, 'showNote'])->name('admin.notulensi');
 Route::get('/upload-letter', [LetterController::class, 'create'])->name('admin.uploadLetter.create');
 Route::post('/upload-letter', [LetterController::class, 'store'])->name('admin.uploadLetter.store');
 
@@ -55,7 +57,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
     Route::delete('/peserta/{id}', [PesertaController::class, 'destroy'])->name('admin.peserta.delete');
 
+    Route::get('/kerma', [KermaController::class, 'getByTridharma'])->name('admin.getKerma');
+
     Route::get('/letter', [LetterController::class, 'index'])->name('admin.letter.index');
+    Route::post('/letter', [LetterController::class, 'store'])->name('admin.letter.store');
     Route::get('/letter/merge/{id}', [LetterController::class, 'mergePDF'])->name('admin.letter.merge');
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
