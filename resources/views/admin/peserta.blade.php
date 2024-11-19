@@ -25,7 +25,7 @@
     <div class="container mx-auto w-full px-4 py-8">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="font-bold text-3xl">Event</h1>
+                <h1 class="font-bold text-3xl">Peserta</h1>
             </div>
         </div>
 
@@ -43,7 +43,7 @@
         
         {{-- Create Event Button --}}
         <div class="w-full md:w-fit flex justify-between md:items-center gap-4 my-3 mt-3">
-            <button id="archive-button" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg inline-flex transition duration-200">
+            <button id="addUser" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg inline-flex transition duration-200" onclick="openModal()">
                 Tambah Peserta
             </button>
             <button id="import-button" class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg inline-flex transition duration-200">
@@ -62,9 +62,9 @@
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">No</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Nama</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">NIP</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Bag</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Sub Bag</th>
+                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Prodi</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Jabatan</th>
+                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Email</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -74,9 +74,29 @@
                             <td class="py-2 px-3 text-center">{{ $pesertas->firstItem() + $index }}</td>
                             <td class="py-2 px-3 text-center">{{ $peserta->name }}</td>
                             <td class="py-2 px-3 text-center">{{ $peserta->nip }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->bag }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->subbag }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->position }}</td>
+                            <td class="py-2 px-3 text-center">{{ $peserta->study_program }}</td>
+                            <td class="py-2 px-3 text-center">
+                                @if ($peserta->position)
+                                    {{ $peserta->position }}
+                                @else
+                                    <span class="text-red-500 flex justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+                                            <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+                                        </svg>
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="py-2 px-3 text-center">
+                                @if ($peserta->email)
+                                    {{ $peserta->email }}
+                                @else
+                                    <span class="text-red-500 flex justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+                                            <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+                                        </svg>
+                                    </span>
+                                @endif
+                            </td>
                             <td class="py-2 px-3 text-center">
                                 <div class="flex justify-center space-x-2">
                                     {{-- Show Data --}}
@@ -91,8 +111,8 @@
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                         </svg>
-                                    </a>
-                                    <form action="{{ route('admin.event.delete', $event->id) }}" method="POST" class="inline-block transition duration-300 hover:scale-110">
+                                    </a> --}}
+                                    <form action="{{ route('admin.peserta.delete', $peserta->id) }}" method="POST" class="inline-block transition duration-300 hover:scale-110">
                                         @csrf
                                         @method('DELETE')
                                         <button id="buttonDeleteEvent" onclick="confirmDelete(event)" type="button" class="text-red-600 deleteEvent">
@@ -100,7 +120,7 @@
                                                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                                             </svg>
                                         </button>
-                                    </form> --}}
+                                    </form> 
                                     {{-- Show by UUID --}}
                                     {{-- <a href="{{ route('admin.attendance', $event->uuid) }}" class="text-blue-600 transition duration-300 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
@@ -121,22 +141,54 @@
         </div>
 
         <!-- Modal -->
-        <div id="qrModal" class="fixed inset-0 hidden items-center justify-center bg-gray-900 bg-opacity-50 flex transition-opacity duration-300">
-            <div class="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 scale-90 opacity-0" id="qrModalContent">
-                <h2 class="text-xl font-bold mb-4">QR Code</h2>
-                <!-- Loader (Spinner) -->
-                <div id="qrLoader" class="flex justify-center items-center">
-                    <div class="loader border-t-transparent border-4 border-blue-500 border-solid rounded-full w-8 h-8 animate-spin"></div>
-                </div>
-                <div class="flex justify-center mb-4">
-                    <img id="qrImage" src="" alt="QR Code" class="max-w-full max-h-[300px]">
-                </div>
-                <div class="flex justify-between gap-6">
+        <div id="createPesertaModal" class="fixed inset-0 hidden items-center justify-center bg-gray-900 bg-opacity-50 flex transition-opacity duration-300">
+            <div class="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 scale-90 opacity-0 w-full sm:w-3/4 lg:w-8/12" id="createPesertaContent">
+                <h2 class="text-xl font-bold mb-4 text-center">Tambah Pengguna</h2>
+                <img src="{{ asset('assets/user.png') }}" alt="Add User" class="w-1/4 mx-auto mb-4">
+                <form id="pesertaForm" action="{{ route('admin.peserta.store') }}" method="POST">
+                    @csrf
+                    <div class="flex flex-wrap">
+                        <div class="mb-6 px-3 w-full lg:w-1/2">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
+                            <input type="text" name="name" id="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <p class="text-red-500 text-sm mt-2 error" id="error-name"></p>
+                        </div>
+        
+                        <div class="mb-6 px-3 w-full lg:w-1/2">
+                            <label for="nip" class="block text-sm font-medium text-gray-700">NIP</label>
+                            <input type="text" name="nip" id="nip" class="mt-2 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" required>
+                            <p class="text-red-500 text-sm mt-2 error" id="error-nip"></p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <div class="mb-6 px-3 w-full lg:w-1/2">
+                            <label for="bag" class="block text-sm font-medium text-gray-700">Bag</label>
+                            <input type="text" name="bag" id="bag" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <p class="text-red-500 text-sm mt-2 error" id="error-bag"></p>
+                        </div>
+        
+                        <div class="mb-6 px-3 w-full lg:w-1/2">
+                            <label for="subbag" class="block text-sm font-medium text-gray-700">SubBag</label>
+                            <input type="text" name="subbag" id="subbag" class="mt-2 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" required>
+                            <p class="text-red-500 text-sm mt-2 error" id="error-subbag"></p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <div class="mb-6 px-3 w-full lg:w-1/2">
+                            <label for="position" class="block text-sm font-medium text-gray-700">Posisi</label>
+                            <input type="text" name="position" id="position" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <p class="text-red-500 text-sm mt-2 error" id="error-position"></p>
+                        </div>
+                        <div class="mb-6 px-3 w-full lg:w-1/2">
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="text" name="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <p class="text-red-500 text-sm mt-2 error" id="error-email"></p>
+                        </div>
+                    </div>
+                </form>
+                <div class="flex justify-between gap-6 mt-6 px-3">
                     <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded">Close</button>
-                    <button onclick="printQRCode()" class="bg-blue-500 text-white px-4 py-2 rounded">Print</button>
-                </div>
-                <div id="qrLoader" class="hidden mt-4 text-center">
-                    <div class="loader"></div> <!-- You can add your loader animation here -->
+                    <button id="submitModalBtn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded" onclick="submitForm()">Submit</button>
                 </div>
             </div>
         </div>
@@ -155,98 +207,23 @@
     </div>
 
     @include('admin.partials.import_modal')
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const openModalBtn = document.getElementById('openModalBtn');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const eventModal = document.getElementById('eventModal');
-            const submitModalBtn = document.getElementById('submitModalBtn');
-            const spinner = document.getElementById('spinner');
-            const createEventForm = document.getElementById('createEvent');
-            const deleteEvent = document.getElementById('buttonDeleteEvent');
-
-            // Open modal when the button is clicked
-            openModalBtn.addEventListener('click', function () {
-                eventModal.classList.remove('hidden');
-                eventModal.classList.remove('opacity-0', 'scale-95');
-                eventModal.classList.add('opacity-100', 'scale-100');
-            });
-
-            // Close modal when the close button is clicked
-            closeModalBtn.addEventListener('click', function () {
-                eventModal.classList.add('opacity-0');
-                setTimeout(() => {
-                    eventModal.classList.add('hidden');
-                }, 100); // Delay to allow the transition to complete
-            });
-
-            // document.querySelectorAll('.deleteEvent').forEach(button => {
-            //     console.log('Delete button found');
-                
-            //     button.addEventListener('click', function (e) {
-            //         console.log('Delete button clicked');
-                    
-            //         e.preventDefault();
-            //         Swal.fire({
-            //             title: 'Are you sure?',
-            //             text: "You won't be able to revert this!",
-            //             icon: 'warning',
-            //             showCancelButton: true,
-            //             confirmButtonColor: '#3085d6',
-            //             cancelButtonColor: '#d33',
-            //             confirmButtonText: 'Yes, delete it!'
-            //         }).then((result) => {
-            //             if (result.isConfirmed) {
-            //                 console.log('Form submitted');
-            //                 e.target.closest('form').submit();
-            //             }
-            //         });
-            //     });
-            // });
-
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- JavaScript -->
     <script>
-        function openModal(qrCodeUrl) {
-            const modal = document.getElementById('qrModal');
-            const modalContent = document.getElementById('qrModalContent');
-            const qrImage = document.getElementById('qrImage');
-            const qrLoader = document.getElementById('qrLoader');
-            
-            // Show modal and loader first
-            qrImage.classList.add('hidden');
-            qrLoader.classList.remove('hidden');
+        function openModal() {
+            const modal = document.getElementById('createPesertaModal');
+            const modalContent = document.getElementById('createPesertaContent');
             
             modal.classList.remove('hidden'); // Show modal
             setTimeout(() => {
                 modalContent.classList.remove('scale-90', 'opacity-0'); // Add transition effect
                 modalContent.classList.add('scale-100', 'opacity-100');
             }, 10); // Delay to trigger transition
-
-            // Fetch QR code as Blob (binary data for the image)
-            fetch(qrCodeUrl)
-                .then(response => response.blob()) // Fetching the response as a Blob
-                .then(blob => {
-                    const qrCodeUrl = URL.createObjectURL(blob); // Convert blob to an object URL
-                    qrImage.src = qrCodeUrl; // Set the QR Code image URL from the blob
-                    qrLoader.classList.add('hidden'); // Hide loader
-                    qrImage.classList.remove('hidden'); // Show QR image
-                })
-                .catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Failed to load QR Code!',
-                    });
-                    qrLoader.classList.add('hidden'); // Hide loader in case of error
-                });
         }
 
         function closeModal() {
-            const modal = document.getElementById('qrModal');
-            const modalContent = document.getElementById('qrModalContent');
+            const modal = document.getElementById('createPesertaModal');
+            const modalContent = document.getElementById('createPesertaContent');
             
             modalContent.classList.add('scale-90', 'opacity-0'); // Start hiding transition
             modalContent.classList.remove('scale-100', 'opacity-100');
@@ -256,13 +233,92 @@
             }, 300); // Match the duration of the transition
         }
 
+        function submitForm() {
+            const form = document.getElementById('pesertaForm');
+            const submitButton = document.getElementById('submitModalBtn');
+
+            // Clear previous errors
+            document.querySelectorAll('.error').forEach(error => error.innerText = '');
+
+            // Show loading state
+            submitButton.innerText = 'Loading...';
+            submitButton.disabled = true;
+
+            // Create form data
+            const formData = new FormData(form);
+
+            // Send data to server
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => { throw data });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        }).fire({
+                            icon: 'success',
+                            title: data.message
+                        });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                }
+            })
+            .catch(errorData => {
+                if (errorData.errors) {
+                    Object.keys(errorData.errors).forEach(key => {
+                        const errorElement = document.getElementById(`error-${key}`);
+                        if (errorElement) errorElement.innerText = errorData.errors[key][0];
+                    });
+                } else {
+                    Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    }).fire({
+                        icon: 'error',
+                        title: errorData.message || 'An error occurred. Please try again.'
+                    });
+                }
+            })
+            .finally(() => {
+                submitButton.innerText = 'Submit';
+                submitButton.disabled = false;
+            });
+        }
+
         // Export Button Click
         document.getElementById('import-button').addEventListener('click', function() {
             document.getElementById('importModal').classList.remove('hidden');
         });
 
         // Close Modal
-        function closeModal(modalId) {
+        function closePartialModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
         }
 

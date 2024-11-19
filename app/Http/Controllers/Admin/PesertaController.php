@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Peserta;
 use App\Http\Requests\StorePesertaRequest;
 use App\Http\Requests\UpdatePesertaRequest;
+use App\Imports\PesertaImport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PesertaController extends Controller
 {
@@ -35,9 +40,32 @@ class PesertaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nip' => 'required',
+            'name' => 'required',
+            'bag' => 'required',
+            'subbag' => 'required',
+            'position' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            Peserta::create($validatedData);
+            DB::commit();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Peserta berhasil ditambahkan',
+            ], 201);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal menambahkan peserta',
+            ], 500);
+        }
     }
 
     /**
@@ -75,8 +103,42 @@ class PesertaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Peserta $peserta)
+    public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $peserta = Peserta::find($id);
+            if(!$peserta){
+                Alert::toast('Peserta not found', 'error');
+                return redirect()->route('admin.peserta');
+            }
+            $peserta->delete();
+            DB::commit();
+            Alert::toast('Peserta deleted successfully', 'success');
+            // Redirect with query string
+            
+            return redirect()->to(url()->previous());
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::toast('Error deleting peserta', 'error');
+            return redirect()->route('admin.peserta');
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        try {
+            Excel::import(new PesertaImport, $request->file('file'));
+            Alert::toast('Data imported successfully', 'success');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Alert::toast('Error importing data' . $e->getMessage(), 'error');
+            return redirect()->back();
+        }
     }
 }

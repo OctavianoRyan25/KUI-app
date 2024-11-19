@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nip');
             $table->string('name');
-            $table->string('bag');
-            $table->string('subbag');
-            $table->string('position');
+            $table->string('division')->nullable();
+            $table->string('position')->nullable();
+            $table->string('email')->nullable();
+            $table->string('study_program')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('faculty')->nullable();
+            $table->string('information')->nullable();
             $table->timestamps();
         });
     }
