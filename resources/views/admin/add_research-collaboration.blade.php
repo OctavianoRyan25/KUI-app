@@ -47,7 +47,7 @@
                 <div class="flex flex-wrap px-3">
                     <div class="w-full">
                         <label for="correspondence" class="block text-sm font-medium text-gray-700">Correspondence<span class="text-red-500">*</span></label>
-                        <input type="text" id="correspondence" name="correspondence" autocomplete="off" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type to search...">
+                        <input type="text" id="correspondence" name="correspondence" value="{{ old('correspondence') }}" autocomplete="off" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type to search...">
                         <ul id="searchDropdown" class="hidden rounded-md my-1 w-11/12"></ul>
                         @error('correspondence')
                             <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
@@ -60,7 +60,7 @@
                 <div class="flex flex-wrap">
                     <div class="w-full px-3">
                         <label for="study_program" class="block text-sm font-medium text-gray-700">Prodi<span class="text-red-500">*</span></label>
-                        <input type="text" id="study_program" name="study_program" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Teknik Informatika">
+                        <input type="text" id="study_program" name="study_program" value="{{ old('study_program') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Teknik Informatika" value="{{ old('study_program') }}">
                         @error('study_program')
                             <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                         @enderror
@@ -71,14 +71,14 @@
             <div class="mb-4 flex flex-wrap">
                 <div class="w-full px-3 md:w-1/2">
                     <label for="name" class="block text-sm font-medium text-gray-700">Nama Author<span class="text-red-500">*</span></label>
-                    <input type="text" id="name" name="name" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="John Doe">
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="John Doe">
                     @error('name')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="w-full px-3 md:w-1/2">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email Author<span class="text-red-500">*</span></label>
-                    <input type="email" id="email" name="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="loremipsum@gmail.com">
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="loremipsum@gmail.com">
                     @error('email')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
@@ -88,7 +88,7 @@
             <div class="mb-4 flex flex-wrap">
                 <div class="w-full px-3">
                     <label for="list_authors" class="block text-sm font-medium text-gray-700">List Authors</span></label>
-                    <textarea type="text_area" id="list_authors" name="list_authors" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="John Doe"></textarea>
+                    <textarea type="text_area" id="list_authors" name="list_authors" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('list_authors') }}</textarea>
                     @error('list_authors')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
@@ -98,14 +98,14 @@
             <div class="mb-4 flex flex-wrap">
                 <div class="w-full px-3 md:w-1/2">
                     <label for="phone" class="block text-sm font-medium text-gray-700">Nomor Telepon Author<span class="text-red-500">*</span></label>
-                    <input type="text" id="phone" name="phone" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="0812317612">
+                    <input type="text" id="phone" name="phone" value="{{ old('phone') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="0812317612">
                     @error('phone')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="w-full px-3 md:w-1/2">
                     <label for="university" class="block text-sm font-medium text-gray-700">Universitas Author<span class="text-red-500">*</span></label>
-                    <input type="text" id="university" name="university" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="university" name="university" value="{{ old('university') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     @error('university')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
@@ -115,14 +115,14 @@
             <div class="mb-4 flex flex-wrap">
                 <div class="w-full px-3 md:w-1/2">
                     <label for="department" class="block text-sm font-medium text-gray-700">Prodi Author<span class="text-red-500">*</span></label>
-                    <input type="text" id="department" name="department" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="information system">
+                    <input type="text" id="department" name="department" value="{{ old('department') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="information system">
                     @error('department')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="w-full px-3 md:w-1/2">
                     <label for="faculty" class="block text-sm font-medium text-gray-700">Fakultas Author<span class="text-red-500">*</span></label>
-                    <input type="text" id="faculty" name="faculty" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="faculty" name="faculty" value="{{ old('faculty') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     @error('faculty')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
@@ -132,21 +132,21 @@
             <div class="mb-4 flex flex-wrap">
                 <div class="w-full px-3 md:w-1/3">
                     <label for="link_paper" class="block text-sm font-medium text-gray-700">Link Paper Author<span class="text-red-500">*</span></label>
-                    <input type="text" id="link_paper" name="link_paper" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="link_paper" name="link_paper" value="{{ old('link_paper') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     @error('link_paper')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="w-full px-3 md:w-1/3">
                     <label for="publish_date" class="block text-sm font-medium text-gray-700">Tanggal Terbit Paper<span class="text-red-500">*</span></label>
-                    <input type="date" id="publish_date" name="publish_date" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="information system">
+                    <input type="date" id="publish_date" name="publish_date" value="{{ old('publish_date') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="information system">
                     @error('publish_date')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="w-full px-3 md:w-1/3">
                     <label for="title" class="block text-sm font-medium text-gray-700">Judul Paper<span class="text-red-500">*</span></label>
-                    <input type="text" id="title" name="title" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="title" name="title" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ old('title') }}">
                     @error('title')
                         <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                     @enderror
@@ -160,6 +160,7 @@
                         <input
                         type="number"
                         name="fee_journal"
+                        value="{{ old('fee_journal') }}"
                         class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:border-slate-300 shadow-sm focus:shadow appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         placeholder="1,000" />
                         <div class="absolute top-2 right-0 flex items-center pr-3">
@@ -243,6 +244,9 @@
                         <input id="is_PKS" name="is_PKS" type="radio" value="0" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
                         <label for="is_PKS" class="ml-2 block text-sm text-gray-900">Tidak</label>
                     </div>
+                    @error('is_PKS')
+                        <div class="text-red-500 text-sm mt-2">Field ini harus Diisi</div>
+                    @enderror
                 </div>
             </div>
 

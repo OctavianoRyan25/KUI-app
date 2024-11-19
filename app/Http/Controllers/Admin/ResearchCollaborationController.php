@@ -35,7 +35,7 @@ class ResearchCollaborationController extends Controller
             'faculty' => 'required|min:2',
             'link_paper' => 'required|url',
             'publish_date' => 'required|date',
-            'title' => 'required|min:4|max:70',
+            'title' => 'required|min:4|max:200',
             'fee_journal' => 'nullable|numeric',
             'journal_output' => 'required',
             'journal_level' => 'required',
