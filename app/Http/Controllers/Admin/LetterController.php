@@ -90,4 +90,12 @@ class LetterController extends Controller
 
         return response()->download($output);
     }
+
+    public function destroy($id)
+    {
+        $letter = Letter::findOrFail($id);
+        $letter->delete();
+        Alert::toast('Letter deleted successfully', 'success');
+        return redirect()->back();
+    }
 }

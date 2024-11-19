@@ -62,9 +62,9 @@
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">No</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Nama</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">NIP</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Bag</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Sub Bag</th>
+                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Prodi</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Jabatan</th>
+                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Email</th>
                         <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -74,9 +74,29 @@
                             <td class="py-2 px-3 text-center">{{ $pesertas->firstItem() + $index }}</td>
                             <td class="py-2 px-3 text-center">{{ $peserta->name }}</td>
                             <td class="py-2 px-3 text-center">{{ $peserta->nip }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->bag }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->subbag }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->position }}</td>
+                            <td class="py-2 px-3 text-center">{{ $peserta->study_program }}</td>
+                            <td class="py-2 px-3 text-center">
+                                @if ($peserta->position)
+                                    {{ $peserta->position }}
+                                @else
+                                    <span class="text-red-500 flex justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+                                            <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+                                        </svg>
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="py-2 px-3 text-center">
+                                @if ($peserta->email)
+                                    {{ $peserta->email }}
+                                @else
+                                    <span class="text-red-500 flex justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+                                            <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+                                        </svg>
+                                    </span>
+                                @endif
+                            </td>
                             <td class="py-2 px-3 text-center">
                                 <div class="flex justify-center space-x-2">
                                     {{-- Show Data --}}
@@ -158,6 +178,11 @@
                             <label for="position" class="block text-sm font-medium text-gray-700">Posisi</label>
                             <input type="text" name="position" id="position" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                             <p class="text-red-500 text-sm mt-2 error" id="error-position"></p>
+                        </div>
+                        <div class="mb-6 px-3 w-full lg:w-1/2">
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="text" name="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <p class="text-red-500 text-sm mt-2 error" id="error-email"></p>
                         </div>
                     </div>
                 </form>

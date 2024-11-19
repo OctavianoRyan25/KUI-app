@@ -140,7 +140,7 @@
                                             </span>
                                         </p>
                                     @endif
-                                    <form action="" method="POST" class="inline-block transition duration-300 hover:scale-110">
+                                    <form action="{{ route('admin.letter.delete', $letter->id) }}" method="POST" class="inline-block transition duration-300 hover:scale-110">
                                         @csrf
                                         @method('DELETE')
                                         <button id="buttonDeleteEvent" onclick="confirmDelete(event)" type="button" class="text-red-600">

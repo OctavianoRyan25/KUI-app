@@ -157,8 +157,8 @@ $(document).ready(function() {
                         data.forEach(function(participant) {
                             $('#results-list').append(
                                 `<li class="p-2 cursor-pointer hover:bg-gray-100" 
-                                    data-id="${participant.id}" data-name="${participant.name}" data-email="${participant.position}">
-                                    ${participant.name} - ${participant.position}
+                                    data-id="${participant.id}" data-name="${participant.name}" data-email="${participant.study_program}">
+                                    ${participant.name} - ${participant.study_program}
                                 </li>`
                             );
                         });

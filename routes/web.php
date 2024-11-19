@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\KermaController;
 use App\Http\Controllers\Admin\LetterController;
 use App\Http\Controllers\Admin\NoteController;
 use App\Http\Controllers\Admin\PesertaController;
+use App\Http\Controllers\Admin\ResearchCollaborationController;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,8 @@ Route::post('/attendance/{uuid}/save-signature', [Controller::class, 'saveSignat
 Route::get('/notulensi/{id}', [Controller::class, 'showNote'])->name('admin.notulensi');
 Route::get('/upload-letter', [LetterController::class, 'create'])->name('admin.uploadLetter.create');
 Route::post('/upload-letter', [LetterController::class, 'store'])->name('admin.uploadLetter.store');
+Route::get('/research-collaboration-reporting', [Controller::class, 'showResearchCollaboration'])->name('admin.researchCollaboration');
+Route::post('/research-collaboration-reporting', [ResearchCollaborationController::class, 'store'])->name('admin.researchCollaboration.store');
 
 Route::get('/search-peserta', [Controller::class, 'searchPeserta'])->name('admin.searchPeserta');
 
@@ -55,6 +58,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
     Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
+    Route::post('/peserta/import', [PesertaController::class, 'import'])->name('admin.peserta.import');
     Route::delete('/peserta/{id}', [PesertaController::class, 'destroy'])->name('admin.peserta.delete');
 
     Route::get('/kerma', [KermaController::class, 'getByTridharma'])->name('admin.getKerma');
@@ -62,6 +66,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/letter', [LetterController::class, 'index'])->name('admin.letter.index');
     Route::post('/letter', [LetterController::class, 'store'])->name('admin.letter.store');
     Route::get('/letter/merge/{id}', [LetterController::class, 'mergePDF'])->name('admin.letter.merge');
+    Route::delete('/letter/{id}', [LetterController::class, 'destroy'])->name('admin.letter.delete');
+
+    Route::get('/research-collaboration', [ResearchCollaborationController::class, 'index'])->name('admin.researchCollaboration');
+    Route::get('/research-collaboration/{id}', [ResearchCollaborationController::class, 'show'])->name('admin.researchCollaboration.show');
+    Route::delete('/research-collaboration/{id}', [ResearchCollaborationController::class, 'destroy'])->name('admin.researchCollaboration.delete');
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 

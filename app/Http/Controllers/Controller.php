@@ -46,11 +46,11 @@ class Controller extends BaseController
     {
         $search = $request->get('query');
         $pesertas = Peserta::where('name', 'like', '%' . $search . '%')
-                            ->get(['id', 'name', 'position']);
+                            ->get(['id', 'name', 'study_program']);
         return response()->json($pesertas);
     }
     public function showNote($id){
-        $note = Note::with('event')->find($id);
+        $note = Note::with('event')->findOrFail($id);
         $present = $note->event->pesertas()->where('is_present', true)->count();
         $no_present = $note->event->pesertas()->where('is_present', false)->count();
         $total_participant = $present + $no_present;
@@ -61,5 +61,10 @@ class Controller extends BaseController
             'no_present' => $no_present,
             'total_participant' => $total_participant,
         ]);
+    }
+
+    public function showResearchCollaboration()
+    {
+        return view('admin.add_research-collaboration');
     }
 }

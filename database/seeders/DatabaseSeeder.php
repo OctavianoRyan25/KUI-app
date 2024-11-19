@@ -22,12 +22,10 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // Admin::factory()->create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@example.com',
-        //     'password' => bcrypt('password'),
-        // ]);
-        
-        Peserta::factory(30)->create();
+        Admin::factory()->create([
+            'name' => 'Admin',
+            'email' => 'adminlkui@gmail.com',
+            'password' => bcrypt('dinuspolke-123'),
+        ]);
     }
 }

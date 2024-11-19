@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Peserta;
 use App\Http\Requests\StorePesertaRequest;
 use App\Http\Requests\UpdatePesertaRequest;
+use App\Imports\PesertaImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PesertaController extends Controller
@@ -45,6 +48,7 @@ class PesertaController extends Controller
             'bag' => 'required',
             'subbag' => 'required',
             'position' => 'required',
+            'email' => 'required|email',
         ]);
 
         try {
@@ -118,6 +122,23 @@ class PesertaController extends Controller
             DB::rollBack();
             Alert::toast('Error deleting peserta', 'error');
             return redirect()->route('admin.peserta');
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        try {
+            Excel::import(new PesertaImport, $request->file('file'));
+            Alert::toast('Data imported successfully', 'success');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Alert::toast('Error importing data' . $e->getMessage(), 'error');
+            return redirect()->back();
         }
     }
 }
