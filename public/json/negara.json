@@ -1,12 +1,6 @@
 [
-  {
-    "name": "Afghanistan",
-    "code": "AF"
-  },
-  {
-    "name": "Åland Islands",
-    "code": "AX"
-  },
+  {"name": "Afghanistan", "code": "AF"},
+  {"name": "Åland Islands", "code": "AX"},
   {"name": "Albania", "code": "AL"}, 
   {"name": "Algeria", "code": "DZ"}, 
   {"name": "American Samoa", "code": "AS"}, 
@@ -114,6 +108,7 @@
   {"name": "Kazakhstan", "code": "KZ"}, 
   {"name": "Kenya", "code": "KE"}, 
   {"name": "Kiribati", "code": "KI"}, 
+  {"name": "Kosovo", "code": "ME"}, 
   {"name": "Kuwait", "code": "KW"}, 
   {"name": "Kyrgyzstan", "code": "KG"}, 
   {"name": "Laos", "code": "LA"}, 
@@ -191,7 +186,6 @@
   {"name": "Senegal", "code": "SN"}, 
   {"name": "Serbia", "code": "RS"}, 
   {"name": "Montenegro", "code": "ME"}, 
-  {"name": "Kosovo", "code": "ME"}, 
   {"name": "Seychelles", "code": "SC"}, 
   {"name": "Sierra Leone", "code": "SL"}, 
   {"name": "Singapore", "code": "SG"}, 
