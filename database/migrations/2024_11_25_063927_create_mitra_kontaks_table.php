@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nomor_hp')->nullable();
             $table->string('nomor_telepon')->nullable();
             $table->string('jabatan')->nullable();
-            $table->string('alamat')->nullable();
+            $table->text('alamat')->nullable();
             $table->foreignId('mitra_id')->constrained(
                 table: 'mitras',
                 indexName: 'mitra_kontaks_mitra_id',
