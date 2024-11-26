@@ -55,6 +55,7 @@
     {{-- ? form start --}}
     <form action="{{ route('admin.mitra.store') }}" method="POST" enctype="multipart/form-data" class="bg-white w-full mx-auto mb-4 p-8 rounded-md shadow-md">
       @csrf
+      {{-- ! mitra form start --}}
       <div class="flex flex-wrap">
         <div class="w-full mb-6 px-3 lg:w-1/2">
           <label for="nama-mitra" class="text-gray-700 block text-sm font-medium">Nama Mitra:</label>
@@ -133,11 +134,59 @@
             <small class="text-red-500 mt-2 text-sm">* {{ $message }}</small>
           @enderror
         </div>
+      </div>
+      {{-- ! mitra form end --}}
+      {{-- ! mitra kontak form start --}}
+      <div class="px-3 flex flex-wrap">
+        <label for="logo-mitra" class="text-gray-700 block text-sm font-medium">List Kontak:</label>
+        <div class="bg-white w-full mt-2 mb-6 rounded-md shadow overflow-auto">
+          <table class="min-w-full">
+            <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase">
+              <tr>
+                <th class="py-4 px-6">Nama</th>
+                <th class="py-4 px-6">Email</th>
+                <th class="py-4 px-6">Nomor HP</th>
+                <th class="py-4 px-6">Nomor Telepon</th>
+                <th class="py-4 px-6">Posisi atau Jabatan</th>
+                <th class="py-4 px-6">Alamat</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              @for ($i = 0; $i < 5; $i++)
+                <tr class="odd:bg-white even:bg-gray-300">
+                  <td class="py-2 px-3 border-[#003d7a] border-r">
+                    <input type="text" name="mitra_kontaks[{{ $i }}][nama]" id="nama" value="{{ old('mitra_kontaks.' . $i . '.nama') }}" class="bg-transparent w-full outline-none">
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="email" name="mitra_kontaks[{{ $i }}][email]" id="email" value="{{ old('mitra_kontaks.' . $i . '.email') }}" class="bg-transparent w-full outline-none">
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" name="mitra_kontaks[{{ $i }}][nomor_hp]" id="nomor-hp" value="{{ old('mitra_kontaks.' . $i . '.nomor_hp') }}" class="bg-transparent w-full outline-none">
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" name="mitra_kontaks[{{ $i }}][nomor_telepon]" id="nomor-telepon" value="{{ old('mitra_kontaks.' . $i . '.nomor_telepon') }}" class="bg-transparent w-full outline-none">
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" name="mitra_kontaks[{{ $i }}][jabatan]" id="jabatan" value="{{ old('mitra_kontaks.' . $i . '.jabatan') }}" class="bg-transparent w-full outline-none">
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-l">
+                    <input type="text" name="mitra_kontaks[{{ $i }}][alamat]" id="alamat" value="{{ old('mitra_kontaks.' . $i . '.alamat') }}" class="bg-transparent w-full outline-none">
+                  </td>
+                </tr>
+              @endfor
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- ! mitra kontak form end --}}
+      {{-- ! action buttons start --}}
+      <div class="flex flex-wrap">
         <div class="w-full px-3 flex justify-start sm:justify-end space-x-2">
           <a href="{{ route('admin.mitra.index') }}" class="bg-red-500 text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105">Cancel</a>
           <button type="submit" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Tambah</button>
         </div>
       </div>
+      {{-- ! action buttons end --}}
     </form>
     {{-- ? form end --}}
   </main>

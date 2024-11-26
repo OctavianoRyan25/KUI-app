@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mitra;
+use App\Models\MitraKontak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,6 +57,7 @@ class MitraController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            // ! mitra validation start
             'nama_mitra' => 'required',
             'kriteria_mitra' => 'required',
             'tingkat' => 'required',
@@ -63,12 +65,35 @@ class MitraController extends Controller
             'kota' => 'nullable|required_if:tingkat,Dalam negeri (regional),Dalam negeri (nasional)',
             'negara' => 'nullable|required_if:tingkat,Luar negeri',
             'logo_mitra' => 'nullable|image',
+            // ! mitra validation end
+            // ! mitra kontaks validation start
+            'mitra_kontaks' => 'nullable|array',
+            'mitra_kontaks.*.nama' => 'nullable|string',
+            'mitra_kontaks.*.email' => 'nullable|email',
+            'mitra_kontaks.*.nomor_hp' => 'nullable|string',
+            'mitra_kontaks.*.nomor_telepon' => 'nullable|string',
+            'mitra_kontaks.*.jabatan' => 'nullable|string',
+            'mitra_kontaks.*.alamat' => 'nullable|string',
+            // ! mitra kontaks validation end
         ]);
 
         if ($validatedData['tingkat'] == 'Dalam negeri (regional)') $validatedData['regional'] = 'Jawa Tengah';
         if ($request->file('logo_mitra')) $validatedData['logo_mitra'] = $request->file('logo_mitra')->store('logo-mitra');
 
-        Mitra::create($validatedData);
+        $mitra = Mitra::create($validatedData);
+
+        if ($request->has('mitra_kontaks')) {
+            $filteredKontaks = array_filter($validatedData['mitra_kontaks'], function ($kontak) {
+                return array_filter($kontak);
+            });
+
+            foreach ($filteredKontaks as $kontak) {
+                $kontak['mitra_id'] = $mitra->id;
+
+                MitraKontak::create($kontak);
+            }
+        }
+
         return redirect(route('admin.mitra.index'))->with('success', 'Data mitra baru berhasil ditambahkan.');
     }
 
@@ -77,7 +102,7 @@ class MitraController extends Controller
      */
     public function show(string $id)
     {
-        $mitra = Mitra::findOrFail($id);
+        $mitra = Mitra::with('mitra_kontaks')->findOrFail($id);
         $kriterias = [
             'Kriteria pertama',
             'Kriteria kedua',
@@ -103,7 +128,7 @@ class MitraController extends Controller
      */
     public function edit(string $id)
     {
-        $mitra = Mitra::findOrFail($id);
+        $mitra = Mitra::with('mitra_kontaks')->findOrFail($id);
         $kriterias = [
             'Kriteria pertama',
             'Kriteria kedua',
@@ -130,6 +155,7 @@ class MitraController extends Controller
     public function update(Request $request, string $id)
     {
         $validatedData = $request->validate([
+            // ! mitra validation start
             'nama_mitra' => 'required',
             'kriteria_mitra' => 'required',
             'tingkat' => 'required',
@@ -137,6 +163,16 @@ class MitraController extends Controller
             'kota' => 'nullable|required_if:tingkat,Dalam negeri (regional),Dalam negeri (nasional)',
             'negara' => 'nullable|required_if:tingkat,Luar negeri',
             'logo_mitra' => 'nullable|image',
+            // ! mitra validation end
+            // ! mitra kontaks validation start
+            'mitra_kontaks' => 'nullable|array',
+            'mitra_kontaks.*.nama' => 'nullable|string',
+            'mitra_kontaks.*.email' => 'nullable|email',
+            'mitra_kontaks.*.nomor_hp' => 'nullable|string',
+            'mitra_kontaks.*.nomor_telepon' => 'nullable|string',
+            'mitra_kontaks.*.jabatan' => 'nullable|string',
+            'mitra_kontaks.*.alamat' => 'nullable|string',
+            // ! mitra kontaks validation end
         ]);
 
         if ($validatedData['tingkat'] == 'Dalam negeri (regional)') $validatedData['regional'] = 'Jawa Tengah';
@@ -148,8 +184,22 @@ class MitraController extends Controller
             $validatedData['logo_mitra'] = $request->file('logo_mitra')->store('logo-mitra');
         }
 
-        Mitra::findOrFail($id)->update($validatedData);
-        return redirect(route('admin.mitra.index'))->with('success', 'Data mitra berhasil di-update.');
+        $mitra = Mitra::findOrFail($id);
+        $mitra->update($validatedData);
+
+        if ($request->has('mitra_kontaks')) {
+            $filteredKontaks = array_filter($validatedData['mitra_kontaks'], function ($kontak) {
+                return array_filter($kontak);
+            });
+
+            $mitra->mitra_kontaks()->delete();
+
+            foreach ($filteredKontaks as $kontak) {
+                $mitra->mitra_kontaks()->create($kontak);
+            }
+        }
+
+        return redirect(route('admin.mitra.index'))->with('success', 'Data mitra berhasil diperbarui.');
     }
 
     /**

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('mitra_id')->constrained(
                 table: 'mitras',
                 indexName: 'mitra_kontaks_mitra_id',
-            );
+            )->onDelete('cascade');
             $table->timestamps();
         });
     }

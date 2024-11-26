@@ -47,6 +47,7 @@
     {{-- ? form start --}}
     <form class="bg-white w-full mx-auto mb-4 p-8 rounded-md shadow-md">
       @csrf
+      {{-- ! mitra form start --}}
       <div class="flex flex-wrap">
         <div class="w-full mb-6 px-3 lg:w-1/2">
           <label for="nama-mitra" class="text-gray-700 block text-sm font-medium">Nama Mitra:</label>
@@ -118,10 +119,80 @@
             @endif
           </div>
         </div>
+      </div>
+      {{-- ! mitra form end --}}
+      {{-- ! mitra kontak form start --}}
+      <div class="px-3 flex flex-wrap">
+        <label for="logo-mitra" class="text-gray-700 block text-sm font-medium">List Kontak:</label>
+        <div class="bg-white w-full mt-2 mb-6 rounded-md shadow overflow-auto">
+          <table class="min-w-full">
+            <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase">
+              <tr>
+                <th class="py-4 px-6">Nama</th>
+                <th class="py-4 px-6">Email</th>
+                <th class="py-4 px-6">Nomor HP</th>
+                <th class="py-4 px-6">Nomor Telepon</th>
+                <th class="py-4 px-6">Posisi atau Jabatan</th>
+                <th class="py-4 px-6">Alamat</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              @foreach ($mitra->mitra_kontaks as $mitra_kontak)
+                <tr class="odd:bg-white even:bg-gray-300">
+                  <td class="py-2 px-3 border-[#003d7a] border-r">
+                    <input type="text" id="nama" value="{{ $mitra_kontak->nama ?? '-' }}" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="email" id="email" value="{{ $mitra_kontak->email ?? '-' }}" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" id="nomor-hp" value="{{ $mitra_kontak->nomor_hp ?? '-' }}" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" id="nomor-telepon" value="{{ $mitra_kontak->nomor_telepon ?? '-' }}" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" id="jabatan" value="{{ $mitra_kontak->jabatan ?? '-' }}" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-l">
+                    <input type="text" id="alamat" value="{{ $mitra_kontak->alamat ?? '-' }}" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                </tr>
+              @endforeach
+              @for ($i = $mitra->mitra_kontaks->count(); $i < 5; $i++)
+                <tr class="odd:bg-white even:bg-gray-300">
+                  <td class="py-2 px-3 border-[#003d7a] border-r">
+                    <input type="text" id="nama" value="-" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="email" id="email" value="-" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" id="nomor-hp" value="-" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" id="nomor-telepon" value="-" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-x">
+                    <input type="text" id="jabatan" value="-" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                  <td class="py-2 px-3 border-[#003d7a] border-l">
+                    <input type="text" id="alamat" value="-" class="bg-transparent w-full outline-none" disabled>
+                  </td>
+                </tr>
+              @endfor
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- ! mitra kontak form end --}}
+      {{-- ! action button start --}}
+      <div class="flex flex-wrap">
         <div class="w-full px-3 flex justify-start space-x-2 sm:justify-end">
           <a href="{{ route('admin.mitra.index') }}" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Back</a>
         </div>
       </div>
+      {{-- ! action button end --}}
     </form>
     {{-- ? form end --}}
   </main>
