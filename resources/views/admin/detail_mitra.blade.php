@@ -113,7 +113,7 @@
           <span class="text-gray-700 block text-sm font-medium">Logo Mitra:</span>
           <div class="container-preview {{ $mitra->logo_mitra ? 'bg-transparent' : 'bg-[#003d7a]' }} w-40 h-40 mt-2 flex justify-center items-center rounded-md">
             @if (old('logo_mitra', $mitra->logo_mitra))
-              <img src="{{ asset('storage/' . $mitra->logo_mitra) }}" alt="{{ $mitra->nama_mitra . '\'s Logo' }}" class="img-preview rounded-md">
+              <img src="{{ asset('storage/public/' . $mitra->logo_mitra) }}" alt="{{ $mitra->nama_mitra . '\'s Logo' }}" class="img-preview rounded-md">
             @else
               <span class="span-preview text-gray-400 text-3xl font-bold tracking-widest text-center uppercase -rotate-45">Preview</span>
             @endif
