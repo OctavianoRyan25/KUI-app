@@ -78,8 +78,9 @@ class MitraController extends Controller
         ]);
 
         if ($validatedData['tingkat'] == 'Dalam negeri (regional)') $validatedData['regional'] = 'Jawa Tengah';
-        if ($request->file('logo_mitra')) $validatedData['logo_mitra'] = $request->file('logo_mitra')->store('logo-mitra');
+        if ($request->file('logo_mitra')) $validatedData['logo_mitra'] = $request->file('logo_mitra')->store('public/logo-mitra');
 
+        $validatedData['logo_mitra'] = str_replace('public/', '', $validatedData['logo_mitra']);
         $mitra = Mitra::create($validatedData);
 
         if ($request->has('mitra_kontaks')) {
@@ -181,7 +182,8 @@ class MitraController extends Controller
                 Storage::delete($request->old_logo_mitra);
             }
 
-            $validatedData['logo_mitra'] = $request->file('logo_mitra')->store('logo-mitra');
+            $validatedData['logo_mitra'] = $request->file('logo_mitra')->store('public/logo-mitra');
+            $validatedData['logo_mitra'] = str_replace('public/', '', $validatedData['logo_mitra']);
         }
 
         $mitra = Mitra::findOrFail($id);
