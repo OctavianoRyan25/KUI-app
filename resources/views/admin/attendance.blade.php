@@ -106,7 +106,7 @@
                     </td>
                     <td class="py-3 px-4 justify-items-center items-center">
                         @if($participant->pivot->signature)
-                            <img src="{{ $participant->pivot->signature }}" alt="Signature" class="h-10 w-auto border border-gray-300 rounded">
+                            <img src="{{ $participant->pivot->signature }}" draggable="false" oncontextmenu="return false;" alt="Signature" class="h-10 w-auto border border-gray-300 rounded">
                         @else
                         <div class="flex justify-center">
                             <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
