@@ -18,8 +18,18 @@
           <svg class="text-gray-400 w-3 h-3 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
           </svg>
-          <a href="{{ route('admin.mitra.index') }}">
+          <a href="{{ route('admin.kerjaSama.index') }}">
             <span class="text-gray-500 ms-1 text-sm font-medium hover:text-blue-600 md:ms-2">Kerja Sama</span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <svg class="text-gray-400 w-3 h-3 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+          </svg>
+          <a href="{{ route('admin.mitra.index') }}">
+            <span class="text-gray-500 ms-1 text-sm font-medium hover:text-blue-600 md:ms-2">Mitra</span>
           </a>
         </div>
       </li>

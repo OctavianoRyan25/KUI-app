@@ -73,13 +73,18 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/research-collaboration/{id}', [ResearchCollaborationController::class, 'show'])->name('admin.researchCollaboration.show');
     Route::delete('/research-collaboration/{id}', [ResearchCollaborationController::class, 'destroy'])->name('admin.researchCollaboration.delete');
 
-    Route::get('/mitra', [MitraController::class, 'index'])->name('admin.mitra.index');
-    Route::get('/mitra/create', [MitraController::class, 'create'])->name('admin.mitra.create');
-    Route::post('/mitra', [MitraController::class, 'store'])->name('admin.mitra.store');
-    Route::get('/mitra/{id}', [MitraController::class, 'show'])->name('admin.mitra.show');
-    Route::get('/mitra/{id}/edit', [MitraController::class, 'edit'])->name('admin.mitra.edit');
-    Route::put('/mitra/{id}', [MitraController::class, 'update'])->name('admin.mitra.update');
-    Route::delete('/mitra/{id}', [MitraController::class, 'destroy'])->name('admin.mitra.destroy');
+    Route::get('/kerja-sama', function () {
+        return view('admin.kerja-sama');
+    })->name('admin.kerjaSama.index');
+    Route::prefix('/kerja-sama')->group(function () {
+        Route::get('/mitra', [MitraController::class, 'index'])->name('admin.mitra.index');
+        Route::get('/mitra/create', [MitraController::class, 'create'])->name('admin.mitra.create');
+        Route::post('/mitra', [MitraController::class, 'store'])->name('admin.mitra.store');
+        Route::get('/mitra/{id}', [MitraController::class, 'show'])->name('admin.mitra.show');
+        Route::get('/mitra/{id}/edit', [MitraController::class, 'edit'])->name('admin.mitra.edit');
+        Route::put('/mitra/{id}', [MitraController::class, 'update'])->name('admin.mitra.update');
+        Route::delete('/mitra/{id}', [MitraController::class, 'destroy'])->name('admin.mitra.destroy');
+    });
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 
