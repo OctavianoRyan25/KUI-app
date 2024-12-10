@@ -25,7 +25,7 @@ class PesertaController extends Controller
     {
         $search = $request->get('query');
         $pesertas = Peserta::where('name', 'like', '%' . $search . '%')
-                            ->get(['id', 'name', 'position']);
+            ->get(['id', 'name', 'position']);
         return response()->json($pesertas);
     }
     /**
@@ -45,10 +45,13 @@ class PesertaController extends Controller
         $validatedData = $request->validate([
             'nip' => 'required',
             'name' => 'required',
-            'bag' => 'required',
-            'subbag' => 'required',
-            'position' => 'required',
-            'email' => 'required|email',
+            'division' => 'nullable',
+            'position' => 'nullable',
+            'email' => 'nullable|email',
+            'study_program' => 'nullable',
+            'phone_number' => 'nullable',
+            'faculty' => 'nullable',
+            'information' => 'nullable',
         ]);
 
         try {
@@ -108,7 +111,7 @@ class PesertaController extends Controller
         try {
             DB::beginTransaction();
             $peserta = Peserta::find($id);
-            if(!$peserta){
+            if (!$peserta) {
                 Alert::toast('Peserta not found', 'error');
                 return redirect()->route('admin.peserta');
             }
@@ -116,7 +119,7 @@ class PesertaController extends Controller
             DB::commit();
             Alert::toast('Peserta deleted successfully', 'success');
             // Redirect with query string
-            
+
             return redirect()->to(url()->previous());
         } catch (\Throwable $th) {
             DB::rollBack();

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [AdminController::class, 'index'])->name('admin.home');
 Route::get('/attendance/{uuid}', [Controller::class, 'showAttendance'])->name('admin.attendance');
 Route::post('/attendance/{uuid}/save-signature', [Controller::class, 'saveSignature'])->name('admin.saveSignature');
@@ -34,7 +35,7 @@ Route::post('/research-collaboration-reporting', [ResearchCollaborationControlle
 
 Route::get('/search-peserta', [Controller::class, 'searchPeserta'])->name('admin.searchPeserta');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function (){
+Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
     Route::get('/login', [AuthAdmin::class, 'showLoginForm'])->name('admin.loginForm');
     Route::post('/login', [AuthAdmin::class, 'login'])->name('admin.login');
 });
@@ -56,6 +57,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/note/{id}', [NoteController::class, 'show'])->name('admin.note');
     Route::put('/note/{id}', [NoteController::class, 'update'])->name('admin.note.update');
+    Route::post('/note/{event_id}/upload-photo', [NoteController::class, 'uploadPhoto'])->name('admin.uploadPhoto');
+    Route::post('/note/{event_id}/upload-file', [NoteController::class, 'uploadFile'])->name('admin.uploadFile');
 
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
     Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
@@ -89,7 +92,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 
     Route::get('phpmyinfo', function () {
-        phpinfo(); 
+        phpinfo();
     })->name('phpmyinfo');
 });
 
