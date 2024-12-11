@@ -30,7 +30,7 @@
                 </button>
             </div>
             <nav :class="{'block': open, 'hidden': !open}" class="flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto">
-                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/dashboard') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/dashboard">Home</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/dashboard') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/dashboard">Dashboard</a>
                 {{-- <div @click.away="open = false" class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:block hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                         <span>Peserta</span>
@@ -43,10 +43,10 @@
                         </div>
                     </div>
                 </div> --}}
-                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/event') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/event">Event</a>
-                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/peserta') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/peserta">Peserta</a>
-                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/letter') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/letter">Letter</a>
-                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/research-collaboration') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/research-collaboration">Kolaborasi Penelitian</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/event*') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/event">Event</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/peserta*') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/peserta">Peserta</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/letter*') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/letter">Letter</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/research-collaboration*') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/research-collaboration">Research Collaboration</a>
                 <a class="bg-transparent text-white mt-2 py-2 px-4 block text-sm font-semibold rounded-lg hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 focus:outline-none focus:shadow-outline {{ request()->is('admin/kerja-sama*') ? 'bg-yellow-500 text-black' : '' }}" href="/admin/kerja-sama">Kerja Sama</a>
                 <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf

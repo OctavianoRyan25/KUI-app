@@ -2,35 +2,37 @@
 @section('title', 'Peserta')
 @section('content')
 
-    <nav class="flex container mx-auto w-full px-4 pt-8" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-        <li class="inline-flex items-center">
-            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
-            </svg>
-            Home
-            </a>
-        </li>
-        <li>
-            <div class="flex items-center">
-            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-            </svg>
-            <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">Peserta</span>
-            </div>
-        </li>
-        </ol>
-    </nav>  
+    <nav class="container w-full mx-auto pt-8 px-4 flex" aria-label="Breadcrumb">
+        <ul class="inline-flex items-center space-x-1 rtl:space-x-reverse md:space-x-2">
+            <li class="inline-flex items-center">
+                <a href="{{ route('admin.dashboard') }}" class="text-gray-700 inline-flex items-center text-sm font-medium hover:text-blue-600">
+                    <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="text-gray-400 w-3 h-3 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <a href="{{ route('admin.peserta') }}">
+                        <span class="text-gray-500 ms-1 text-sm font-medium hover:text-blue-600 md:ms-2">Peserta</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
     <div class="container mx-auto w-full px-4 py-8">
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-12">
                 <h1 class="font-bold text-3xl">Peserta</h1>
             </div>
         </div>
 
         @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <strong class="font-bold">Error!</strong>
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -42,7 +44,7 @@
 
         
         {{-- Create Event Button --}}
-        <div class="w-full md:w-fit flex justify-between md:items-center gap-4 my-3 mt-3">
+        <div class="w-full md:w-fit flex justify-between md:items-center gap-4 my-3 mb-4">
             <button id="addUser" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg inline-flex transition duration-200" onclick="openModal()">
                 Tambah Peserta
             </button>
@@ -55,27 +57,27 @@
         </div>
 
         {{-- Table Event --}}
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative mt-4">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-[#003d7a]">
+        <div class="bg-white mb-4 rounded-md shadow overflow-auto">
+            <table class="min-w-full">
+                <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase">
                     <tr>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">No</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Nama</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">NIP</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Prodi</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Jabatan</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Email</th>
-                        <th class="py-3 px-6 text-center text-sm font-medium text-white uppercase tracking-wider">Actions</th>
+                        <th class="py-4 px-6">No</th>
+                        <th class="py-4 px-6">Nama</th>
+                        <th class="py-4 px-6">NIP</th>
+                        <th class="py-4 px-6">Prodi</th>
+                        <th class="py-4 px-6">Jabatan</th>
+                        <th class="py-4 px-6">Email</th>
+                        <th class="py-4 px-6">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="text-center">
                     @foreach ($pesertas as $index => $peserta)
-                        <tr class="hover:bg-gray-100 transition duration-200">
-                            <td class="py-2 px-3 text-center">{{ $pesertas->firstItem() + $index }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->name }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->nip }}</td>
-                            <td class="py-2 px-3 text-center">{{ $peserta->study_program }}</td>
-                            <td class="py-2 px-3 text-center">
+                        <tr class="odd:bg-white even:bg-gray-300">
+                            <td class="py-2 px-4">{{ $pesertas->firstItem() + $index }}</td>
+                            <td class="py-2 px-4">{{ $peserta->name }}</td>
+                            <td class="py-2 px-4">{{ $peserta->nip }}</td>
+                            <td class="py-2 px-4">{{ $peserta->study_program }}</td>
+                            <td class="py-2 px-4">
                                 @if ($peserta->position)
                                     {{ $peserta->position }}
                                 @else
@@ -86,7 +88,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="py-2 px-3 text-center">
+                            <td class="py-2 px-4">
                                 @if ($peserta->email)
                                     {{ $peserta->email }}
                                 @else
@@ -97,7 +99,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="py-2 px-3 text-center">
+                            <td class="py-2 px-4">
                                 <div class="flex justify-center space-x-2">
                                     {{-- Show Data --}}
                                     {{-- <a href="{{ route('admin.event.show', $event->id) }}" class="text-yellow-600 transition duration-300 hover:scale-110">

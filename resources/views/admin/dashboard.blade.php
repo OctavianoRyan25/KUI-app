@@ -21,7 +21,11 @@
                         <p class="text-gray-600">Admin</p>
                     </div>
                 </div>
-                <a href="{{ route('admin.logout') }}" class="border border-gray-300 p-2 rounded-lg">Sign out</a href="{{ route('admin.logout') }}">
+                <form action="{{ route('admin.logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="px-3 py-2 border border-gray-300 rounded-lg">Logout</button>
+                </form>
+                {{-- <a href="{{ route('admin.logout') }}" class="border border-gray-300 p-2 rounded-lg">Sign out</a> --}}
             </div>
             <div class="bg-white p-6 rounded-lg shadow flex justify-between items-center border-t-4 border-orange-600">
                 <img src="{{ asset('assets/logo-udinus.png') }}" alt="Logo Udinus" class="h-12 w-12">
