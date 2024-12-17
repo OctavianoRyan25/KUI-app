@@ -173,7 +173,7 @@
                         class="container-preview {{ $mitra->logo_mitra ? 'bg-transparent' : 'bg-[#003d7a]' }} w-40 h-40 mt-2 flex justify-center items-center rounded-md">
                         <input type="hidden" name="old_logo_mitra" value="{{ $mitra->logo_mitra }}">
                         @if (old('logo_mitra', $mitra->logo_mitra))
-                            <img src="{{ asset('storage/public/' . $mitra->logo_mitra) }}"
+                            <img src="{{ asset('storage/' . $mitra->logo_mitra) }}"
                                 alt="{{ $mitra->nama_mitra . '\'s Logo' }}" class="img-preview rounded-md">
                         @else
                             <span
@@ -333,6 +333,8 @@
                     regional.addEventListener('change', function() {
                         const selectedRegional = regional.value;
                         const selectedRegion = data.find(region => region.provinsi == selectedRegional);
+
+                        kota.innerHTML = '<option value="" disabled selected>-- Pilih kota --</option>';
 
                         if (selectedRegion) {
                             selectedRegion.kota.forEach(city => {

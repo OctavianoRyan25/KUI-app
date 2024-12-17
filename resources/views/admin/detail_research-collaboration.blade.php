@@ -70,9 +70,7 @@
         <div class="mb-4 flex flex-wrap">
             <div class="w-full px-3">
                 <label for="list_authors" class="block text-sm font-medium text-gray-700">List Authors</span></label>
-                <textarea type="text_area" id="list_authors" name="list_authors" disabled class="mt-1 block w-full p-2 border bg-white border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    {{ $research->list_authors ? $research->list_authors : '-' }}
-                </textarea>
+                <textarea type="text_area" id="list_authors" name="list_authors" disabled class="mt-1 block w-full p-2 border bg-white border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ $research->list_authors ? $research->list_authors : '-' }}</textarea>
             </div>
         </div>
         

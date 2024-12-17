@@ -11,6 +11,8 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js" defer></script> --}}
     @vite('resources/css/app.css')
+    {{-- <script type="module" src="{{ asset('build/assets/app-z-Rg4TxU.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/assets/app-CApFbT9w.css') }}"> --}}
 </head>
 <body class="bg-gray-100">
     <!-- component -->
