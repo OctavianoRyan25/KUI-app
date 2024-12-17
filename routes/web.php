@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\KermaController;
 use App\Http\Controllers\Admin\LetterController;
+use App\Http\Controllers\Admin\MitraController;
 use App\Http\Controllers\Admin\NoteController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Admin\ResearchCollaborationController;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [AdminController::class, 'index'])->name('admin.home');
 Route::get('/attendance/{uuid}', [Controller::class, 'showAttendance'])->name('admin.attendance');
 Route::post('/attendance/{uuid}/save-signature', [Controller::class, 'saveSignature'])->name('admin.saveSignature');
@@ -33,7 +35,7 @@ Route::post('/research-collaboration-reporting', [ResearchCollaborationControlle
 
 Route::get('/search-peserta', [Controller::class, 'searchPeserta'])->name('admin.searchPeserta');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function (){
+Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
     Route::get('/login', [AuthAdmin::class, 'showLoginForm'])->name('admin.loginForm');
     Route::post('/login', [AuthAdmin::class, 'login'])->name('admin.login');
 });
@@ -55,6 +57,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/note/{id}', [NoteController::class, 'show'])->name('admin.note');
     Route::put('/note/{id}', [NoteController::class, 'update'])->name('admin.note.update');
+    Route::post('/note/{event_id}/upload-photo', [NoteController::class, 'uploadPhoto'])->name('admin.uploadPhoto');
+    Route::post('/note/{event_id}/upload-file', [NoteController::class, 'uploadFile'])->name('admin.uploadFile');
 
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
     Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
@@ -72,10 +76,23 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/research-collaboration/{id}', [ResearchCollaborationController::class, 'show'])->name('admin.researchCollaboration.show');
     Route::delete('/research-collaboration/{id}', [ResearchCollaborationController::class, 'destroy'])->name('admin.researchCollaboration.delete');
 
+    Route::get('/kerja-sama', function () {
+        return view('admin.kerja-sama');
+    })->name('admin.kerjaSama.index');
+    Route::prefix('/kerja-sama')->group(function () {
+        Route::get('/mitra', [MitraController::class, 'index'])->name('admin.mitra.index');
+        Route::get('/mitra/create', [MitraController::class, 'create'])->name('admin.mitra.create');
+        Route::post('/mitra', [MitraController::class, 'store'])->name('admin.mitra.store');
+        Route::get('/mitra/{id}', [MitraController::class, 'show'])->name('admin.mitra.show');
+        Route::get('/mitra/{id}/edit', [MitraController::class, 'edit'])->name('admin.mitra.edit');
+        Route::put('/mitra/{id}', [MitraController::class, 'update'])->name('admin.mitra.update');
+        Route::delete('/mitra/{id}', [MitraController::class, 'destroy'])->name('admin.mitra.destroy');
+    });
+
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 
     Route::get('phpmyinfo', function () {
-        phpinfo(); 
+        phpinfo();
     })->name('phpmyinfo');
 });
 
