@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthAdmin;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\JenisMitraController;
 use App\Http\Controllers\Admin\KermaController;
 use App\Http\Controllers\Admin\LetterController;
 use App\Http\Controllers\Admin\MitraController;
@@ -87,6 +88,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/mitra/{id}/edit', [MitraController::class, 'edit'])->name('admin.mitra.edit');
         Route::put('/mitra/{id}', [MitraController::class, 'update'])->name('admin.mitra.update');
         Route::delete('/mitra/{id}', [MitraController::class, 'destroy'])->name('admin.mitra.destroy');
+
+        Route::post('/mitra/jenis-mitra/create', [JenisMitraController::class, 'store'])->name('admin.mitra.jenisMitra.store');
+        Route::delete('/mitra/jenis-mitra/{id}', [JenisMitraController::class, 'destroy'])->name('admin.mitra.jenisMitra.destroy');
     });
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');

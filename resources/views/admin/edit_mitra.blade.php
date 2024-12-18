@@ -168,6 +168,23 @@
                     @enderror
                 </div>
                 <div class="w-full mb-6 px-3 lg:w-1/4">
+                    <label for="jenis-mitra" class="text-gray-700 block text-sm font-medium">Jenis Mitra:</label>
+                    <select name="jenis_mitra" id="jenis-mitra"
+                        class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow focus:outline-[#003d7a] sm:text-sm">
+                        @if (old('jenis_mitra', $mitra->jenis_mitra))
+                            <option value="{{ $mitra->jenis_mitra }}">{{ $mitra->jenis_mitra }}</option>
+                        @else
+                            <option value="">-- Pilih jenis mitra --</option>
+                        @endif
+                        @foreach ($jenisMitras as $jenisMitra)
+                            <option value="{{ $jenisMitra->jenis_mitra }}">{{ $jenisMitra->jenis_mitra }}</option>
+                        @endforeach
+                    </select>
+                    @error('jenis_mitra')
+                        <small class="text-red-500 mt-2 text-sm">* {{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="w-full mb-6 px-3 lg:w-1/4">
                     <label for="logo-mitra" class="text-gray-700 block text-sm font-medium">Logo Mitra:</label>
                     <div
                         class="container-preview {{ $mitra->logo_mitra ? 'bg-transparent' : 'bg-[#003d7a]' }} w-40 h-40 mt-2 flex justify-center items-center rounded-md">

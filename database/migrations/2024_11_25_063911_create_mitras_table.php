@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('regional')->nullable();
             $table->string('kota')->nullable();
             $table->string('negara')->nullable();
+            $table->string('jenis_mitra')->nullable();
             $table->string('logo_mitra')->nullable();
             $table->timestamps();
         });

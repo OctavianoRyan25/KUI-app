@@ -52,21 +52,20 @@
       </div>
     @endif
     {{-- ? success alert end --}}
-    {{-- ? error alert start --}}
-    @if ($errors->any())
-      <div class="bg-red-100 text-red-700 mb-4 py-3 px-4 border border-red-400 rounded-md" role="alert">
-        <strong>Error!</strong>
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-    @endif
-    {{-- ? error alert end --}}
     {{-- ? tambah mitra button start --}}
-    <div class="flex justify-end">
-      <a href="{{ route('admin.mitra.create') }}" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Tambah Mitra</a>
+    <div class="flex flex-col justify-between md:flex-row">
+      <form action="{{ route('admin.mitra.index') }}" class="relative">
+        <input type="search" name="search" id="search" placeholder="Cari nama mitra..." value="{{ request('search') }}" class="bg-gray-300 text-black mb-4 py-2 px-4 tracking-wider rounded-md transition duration-300 focus:bg-gray-300 focus:outline-[#003d7a]">
+        <button type="submit" class="bg-[#003d7a] text-white py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 absolute top-[2px] -right-14 hover:bg-blue-600 hover:scale-105">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+        </button>
+      </form>
+      <div>
+        <button class="bg-yellow-500 text-white mr-2 mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-yellow-600 hover:scale-105" onclick="openModal()">Jenis Mitra</button>
+        <a href="{{ route('admin.mitra.create') }}" class="bg-[#003d7a] text-white mb-4 py-2 px-4 inline-block font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Tambah Mitra</a>
+      </div>
     </div>
     {{-- ? tambah mitra button end --}}
     {{-- ? mitra table start --}}
@@ -74,24 +73,28 @@
       <table class="min-w-full">
         <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase">
           <tr>
+            <th class="py-4 px-6">No.</th>
             <th class="py-4 px-6">Nama Mitra</th>
             <th class="py-4 px-6">Kriteria Mitra</th>
             <th class="py-4 px-6">Tingkat</th>
             <th class="py-4 px-6">Regional</th>
             <th class="py-4 px-6">Kota</th>
             <th class="py-4 px-6">Negara</th>
+            <th class="py-4 px-6">Jenis Mitra</th>
             <th class="py-4 px-6">Aksi</th>
           </tr>
         </thead>
         <tbody class="text-center">
-          @foreach ($mitras as $mitra)
+          @foreach ($mitras as $index => $mitra)
             <tr class="odd:bg-white even:bg-gray-300">
+              <td class="py-2 px-4">{{ $loop->iteration }}</td>
               <td class="py-2 px-4">{{ $mitra->nama_mitra }}</td>
               <td class="py-2 px-4">{{ $mitra->kriteria_mitra }}</td>
               <td class="py-2 px-4">{{ $mitra->tingkat }}</td>
               <td class="py-2 px-4">{{ $mitra->regional ?? '-' }}</td>
               <td class="py-2 px-4">{{ $mitra->kota ?? '-' }}</td>
               <td class="py-2 px-4">{{ $mitra->negara ?? '-' }}</td>
+              <td class="py-2 px-4">{{ $mitra->jenis_mitra ?? '-' }}</td>
               <td class="py-2 px-4">
                 <div class="flex justify-center items-center space-x-2">
                   {{-- ! read button start --}}
@@ -128,6 +131,85 @@
       </table>
     </div>
     {{-- ? mitra table end --}}
+
+    {{-- ? modal start --}}
+    <div id="createJenisMitraModal" class="bg-gray-900 hidden justify-center items-center inset-0 bg-opacity-50 transition-opacity duration-300 fixed">
+      <div id="createJenisMitraContent" class="bg-white w-full p-6 rounded-lg shadow-lg opacity-0 transform scale-90 transition-all duration-300 sm:w-3/4 lg:w-6/12">
+        <header class="flex justify-between">
+          <h2 class="mb-4 inline-block text-xl font-bold">Jenis Mitra</h2>
+          <button type="button" id="tambah-button" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105" onclick="openForm()">Tambah Jenis Mitra</button>
+          <button type="button" id="kembali-button" class="bg-red-500 text-white mb-4 py-2 px-4 hidden font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105" onclick="closeForm()">Kembali</button>
+        </header>
+        <hr class="bg-black mb-4">
+        <div id="section-list">
+          <div class="bg-white max-h-[452px] mb-4 rounded-md shadow overflow-auto">
+            <table class="min-w-full">
+              <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase sticky top-0 z-[1]">
+                <tr>
+                  <th class="py-4 px-6">No.</th>
+                  <th class="py-4 px-6">Jenis Mitra</th>
+                  <th class="py-4 px-6">Induk</th>
+                  <th class="py-4 px-6">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                @foreach ($jenisMitras as $jenisMitra)
+                  <tr class="odd:bg-white even:bg-gray-300">
+                    <td class="py-2 px-4">{{ $loop->iteration }}</td>
+                    <td class="py-2 px-4">{{ $jenisMitra->jenis_mitra }}</td>
+                    <td class="py-2 px-4">{{ $jenisMitra->induk ?? '-' }}</td>
+                    <td class="py-2 px-4">
+                      <div class="flex justify-center items-center space-x-2">
+                        {{-- ! delete button start --}}
+                        <form action="{{ route('admin.mitra.jenisMitra.destroy', ['id' => $jenisMitra->id]) }}" method="POST" class="inline-block transition duration-300 translate-y-[2px] hover:scale-110">
+                          @method('DELETE')
+                          @csrf
+                          <button type="button" id="buttonDeleteEvent" onclick="confirmDelete(event)" class="text-red-600">
+                            <svg class="bi bi-trash3-fill w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                            </svg>
+                          </button>
+                        </form>
+                        {{-- ! delete button end --}}
+                      </div>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+          <div class="flex justify-end">
+            <button onclick="closeModal()" class="bg-red-500 text-white mr-2 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105">Close</button>
+          </div>
+        </div>
+        <div id="section-form" class="hidden">
+          <img src="{{ asset('assets/user.png') }}" alt="Jenis Mitra Assets" class="w-1/4 mx-auto mb-4">
+          <form action="{{ route('admin.mitra.jenisMitra.store') }}" method="post" class="flex flex-wrap">
+            @csrf
+            <div class="w-full mb-6 px-3 lg:w-1/2">
+              <label for="jenis-mitra">Jenis Mitra:</label>
+              <input type="text" name="jenis_mitra" id="jenis-mitra" placeholder="..." class="w-full mt-2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-[#003d7a] sm:text-sm">
+            </div>
+            <div class="w-full mb-6 px-3 lg:w-1/2">
+              <label for="induk">Induk:</label>
+              <select name="induk" id="induk" class="w-full mt-2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-[#003d7a] sm:text-sm">
+                <option value="">-- Pilih induk --</option>
+                <option value="Induk pertama">Induk pertama</option>
+                <option value="Induk kedua">Induk kedua</option>
+                <option value="Induk ketiga">Induk ketiga</option>
+                <option value="Induk keempat">Induk keempat</option>
+                <option value="Induk kelima">Induk kelima</option>
+              </select>
+            </div>
+            <div class="w-full px-3 flex justify-end">
+              <button onclick="closeModal()" class="bg-red-500 text-white mr-2 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105">Close</button>
+              <button type="submit" class="bg-[#003d7a] text-white py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {{-- ? modal end --}}
   </main>
   {{-- * main end --}}
 
@@ -161,6 +243,65 @@
       });
     }
     // ? confirm delete end
+
+    // ? modal start
+    function openModal() {
+      const modal = document.getElementById('createJenisMitraModal');
+      const modalContent = document.getElementById('createJenisMitraContent');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        modalContent.classList.add('scale-100', 'opacity-100');
+        modalContent.classList.remove('scale-90', 'opacity-0');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('createJenisMitraModal');
+      const modalContent = document.getElementById('createJenisMitraContent');
+
+      modalContent.classList.add('scale-90', 'opacity-0');
+      modalContent.classList.remove('scale-100', 'opacity-100');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 300);
+    }
+
+    function openForm() {
+      const judul = document.querySelector('#createJenisMitraContent h2');
+      const tambahButton = document.getElementById('tambah-button');
+      const kembaliButton = document.getElementById('kembali-button');
+      const sectionForm = document.getElementById('section-form');
+      const sectionList = document.getElementById('section-list');
+
+      judul.textContent = 'Tambah Jenis Mitra';
+
+      tambahButton.classList.add('hidden');
+      kembaliButton.classList.remove('hidden');
+
+      sectionList.classList.add('hidden');
+      sectionForm.classList.remove('hidden');
+    }
+
+    function closeForm() {
+      const judul = document.querySelector('#createJenisMitraContent h2');
+      const tambahButton = document.getElementById('tambah-button');
+      const kembaliButton = document.getElementById('kembali-button');
+      const sectionForm = document.getElementById('section-form');
+      const sectionList = document.getElementById('section-list');
+
+      judul.textContent = 'Jenis Mitra';
+
+      kembaliButton.classList.add('hidden');
+      tambahButton.classList.remove('hidden');
+
+      sectionForm.classList.add('hidden');
+      sectionList.classList.remove('hidden');
+    }
+    // ? modal end
   </script>
   {{-- * javascript end --}}
 @endsection
