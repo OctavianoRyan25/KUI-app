@@ -110,11 +110,7 @@
                         class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow focus:outline-[#003d7a] sm:text-sm">
                         <option value="">-- Pilih tingkat --</option>
                         @foreach ($tingkats as $tingkat)
-                            {{-- @if (old('tingkat') == $tingkat)
-                <option value="{{ $tingkat }}" selected>{{ $tingkat }}</option>
-              @else --}}
                             <option value="{{ $tingkat }}">{{ $tingkat }}</option>
-                            {{-- @endif --}}
                         @endforeach
                     </select>
                     @error('tingkat')
@@ -151,6 +147,19 @@
                         <option value="">-- Pilih negara --</option>
                     </select>
                     @error('negara')
+                        <small class="text-red-500 mt-2 text-sm">* {{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="w-full mb-6 px-3 lg:w-1/4">
+                    <label for="jenis-mitra" class="text-gray-700 block text-sm font-medium">Jenis Mitra:</label>
+                    <select name="jenis_mitra" id="jenis-mitra"
+                        class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow focus:outline-[#003d7a] sm:text-sm">
+                        <option value="">-- Pilih jenis mitra --</option>
+                        @foreach ($jenisMitras as $jenisMitra)
+                            <option value="{{ $jenisMitra->jenis_mitra }}">{{ $jenisMitra->jenis_mitra }}</option>
+                        @endforeach
+                    </select>
+                    @error('jenis_mitra')
                         <small class="text-red-500 mt-2 text-sm">* {{ $message }}</small>
                     @enderror
                 </div>
