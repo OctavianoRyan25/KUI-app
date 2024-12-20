@@ -18,4 +18,11 @@ class Mitra extends Model
     {
         return $this->hasMany(MitraKontak::class);
     }
+
+    public function scopeSearch($query, array $searches)
+    {
+        $query->when($searches['search'] ?? false, function ($query, $search) {
+            return $query->where('nama_mitra', 'like', '%' . $search . '%');
+        });
+    }
 }

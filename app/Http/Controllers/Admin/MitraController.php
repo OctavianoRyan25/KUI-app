@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisMitra;
 use App\Models\Mitra;
 use App\Models\MitraKontak;
 use Illuminate\Http\Request;
@@ -20,10 +21,12 @@ class MitraController extends Controller
      */
     public function index()
     {
-        $mitras = Mitra::all();
+        $mitras = Mitra::orderBy('created_at', 'ASC')->search(request(['search']))->get();
+        $jenisMitras = JenisMitra::all();
 
         return view('admin.mitra', [
             'mitras' => $mitras,
+            'jenisMitras' => $jenisMitras,
         ]);
     }
 
@@ -44,10 +47,12 @@ class MitraController extends Controller
             'Dalam negeri (nasional)',
             'Luar negeri',
         ];
+        $jenisMitras = JenisMitra::all();
 
         return view('admin.create_mitra', [
             'kriterias' => $kriterias,
             'tingkats' => $tingkats,
+            'jenisMitras' => $jenisMitras,
         ]);
     }
 
@@ -64,6 +69,7 @@ class MitraController extends Controller
             'regional' => 'nullable|required_if:tingkat,Dalam negeri (nasional)',
             'kota' => 'nullable|required_if:tingkat,Dalam negeri (regional),Dalam negeri (nasional)',
             'negara' => 'nullable|required_if:tingkat,Luar negeri',
+            'jenis_mitra' => 'nullable',
             'logo_mitra' => 'nullable|image',
             // ! mitra validation end
             // ! mitra kontaks validation start
@@ -144,11 +150,13 @@ class MitraController extends Controller
             'Dalam negeri (nasional)',
             'Luar negeri',
         ];
+        $jenisMitras = JenisMitra::all();
 
         return view('admin.edit_mitra', [
             'mitra' => $mitra,
             'kriterias' => $kriterias,
             'tingkats' => $tingkats,
+            'jenisMitras' => $jenisMitras,
         ]);
     }
 
@@ -165,6 +173,7 @@ class MitraController extends Controller
             'regional' => 'nullable|required_if:tingkat,Dalam negeri (nasional)',
             'kota' => 'nullable|required_if:tingkat,Dalam negeri (regional),Dalam negeri (nasional)',
             'negara' => 'nullable|required_if:tingkat,Luar negeri',
+            'jenis_mitra' => 'nullable',
             'logo_mitra' => 'nullable|image',
             // ! mitra validation end
             // ! mitra kontaks validation start
