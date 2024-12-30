@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\JenisMitraController;
 use App\Http\Controllers\Admin\KermaController;
 use App\Http\Controllers\Admin\LetterController;
 use App\Http\Controllers\Admin\MitraController;
+use App\Http\Controllers\Admin\MoUController;
 use App\Http\Controllers\Admin\NoteController;
 use App\Http\Controllers\Admin\PesertaController;
 use App\Http\Controllers\Admin\ResearchCollaborationController;
@@ -91,7 +92,18 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::post('/mitra/jenis-mitra/create', [JenisMitraController::class, 'store'])->name('admin.mitra.jenisMitra.store');
         Route::delete('/mitra/jenis-mitra/{id}', [JenisMitraController::class, 'destroy'])->name('admin.mitra.jenisMitra.destroy');
+
+        Route::get('/search-mitra', [MoUController::class, 'searchMitra'])->name('admin.mitra.search');
+
+        Route::get('/memorandum-of-understanding', [MoUController::class, 'index'])->name('admin.mou.index');
+        Route::get('/memorandum-of-understanding/create', [MoUController::class, 'create'])->name('admin.mou.create');
+        Route::post('/memorandum-of-understanding', [MoUController::class, 'store'])->name('admin.mou.store');
+        Route::get('/memorandum-of-understanding/{id}', [MoUController::class, 'show'])->name('admin.mou.show');
+        Route::get('/memorandum-of-understanding/{id}/edit', [MoUController::class, 'edit'])->name('admin.mou.edit');
+        Route::put('/memorandum-of-understanding/{id}/update', [MoUController::class, 'update'])->name('admin.mou.update');
+        Route::delete('/memorandum-of-understanding/{id}', [MoUController::class, 'destroy'])->name('admin.mou.destroy');
     });
+
 
     Route::post('/logout', [AuthAdmin::class, 'logout'])->name('admin.logout');
 

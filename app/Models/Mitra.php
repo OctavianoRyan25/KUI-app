@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Mitra extends Model
 {
@@ -17,6 +18,11 @@ class Mitra extends Model
     public function mitra_kontaks(): HasMany
     {
         return $this->hasMany(MitraKontak::class);
+    }
+
+    public function mous(): HasMany
+    {
+        return $this->hasMany(MoU::class);
     }
 
     public function scopeSearch($query, array $searches)

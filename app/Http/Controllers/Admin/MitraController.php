@@ -111,7 +111,7 @@ class MitraController extends Controller
      */
     public function show(string $id)
     {
-        $mitra = Mitra::with('mitra_kontaks')->findOrFail($id);
+        $mitra = Mitra::with('mitra_kontaks', 'mous')->findOrFail($id);
         $kriterias = [
             'Kriteria pertama',
             'Kriteria kedua',
