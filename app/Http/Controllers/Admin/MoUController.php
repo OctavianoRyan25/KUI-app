@@ -11,9 +11,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class MoUController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $mous = MoU::with('mitra')->paginate(10);
+        $perPage = $request->input('perPage', 1);
+        $mous = MoU::with('mitra')
+            ->search(request(['search']))
+            ->filter(request(['filter']))
+            ->paginate($perPage)
+            ->appends($request->query());
         return view('admin.mou', compact('mous'));
     }
 

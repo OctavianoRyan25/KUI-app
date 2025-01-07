@@ -121,3 +121,12 @@ Route::get('/link', function () {
 Route::get('/editor', function () {
     return view('editor');
 });
+
+Route::get('run-seeder', function () {
+    try {
+        Artisan::call('db:seed', ['--class' => 'DatabaseSeeder']);
+        return 'Seeder has been run';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});

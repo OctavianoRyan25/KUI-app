@@ -35,7 +35,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 9 4-4-4-4" />
                     </svg>
-                    <a href="{{ route('admin.mitra.index') }}">
+                    <a href="{{ route('admin.mou.index') }}">
                         <span class="text-gray-500 ms-1 text-sm font-medium hover:text-blue-600 md:ms-2">MoU</span>
                     </a>
                 </div>
@@ -61,7 +61,7 @@
         {{-- ? success alert end --}}
         {{-- ? tambah mitra button start --}}
         <div class="flex flex-col justify-between md:flex-row">
-            <form action="{{ route('admin.mitra.index') }}" class="relative">
+            <form action="{{ route('admin.mou.index') }}" class="relative">
                 <input type="search" name="search" id="search" placeholder="Cari nama mou..."
                     value="{{ request('search') }}"
                     class="bg-gray-300 text-black mb-4 py-2 px-4 me-2 tracking-wider rounded-md transition duration-300 focus:bg-gray-300 focus:outline-[#003d7a]">
@@ -74,11 +74,41 @@
                     </svg>
                 </button>
             </form>
-            <div>
+            <div class="inline-flex items-center space-x-2">
                 <a href="{{ route('admin.mou.create') }}"
                     class="bg-[#003d7a] text-white mb-4 py-2 px-4 inline-block font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Tambah
                     Dokumen MoU</a>
+                <!-- Filter Dropdown -->
+                <div x-data="{ open: false }" class="relative mb-4">
+                    <button @click="open = !open"
+                        class="bg-[#003d7a] text-white py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" class="bi bi-funnel"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Content -->
+                    <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                        class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                        <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Status</p>
+                        <a href="{{ route('admin.mou.index', ['filter' => 'active']) }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Aktif</a>
+                        <a href="{{ route('admin.mou.index', ['filter' => 'expired']) }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Kedaluarsa</a>
+                        <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Urut Berdasar</p>
+                        <a href="{{ route('admin.mou.index', ['filter' => 'latest']) }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Terbaru</a>
+                        <a href="{{ route('admin.mou.index', ['filter' => 'oldest']) }}"
+                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Terlama</a>
+                    </div>
+                </div>
             </div>
+
         </div>
         <div class="bg-white mb-4 rounded-md shadow overflow-auto">
             <table class="min-w-full">
@@ -89,6 +119,7 @@
                         <th class="py-4 px-6">Nama Dokumen</th>
                         <th class="py-4 px-6">Lama Kerjasama</th>
                         <th class="py-4 px-6">Jenis MoU</th>
+                        <th class="py-4 px-6">Status</th>
                         <th class="py-4 px-6">Aksi</th>
                     </tr>
                 </thead>
@@ -107,6 +138,25 @@
                                     {{ \Carbon\Carbon::parse($mou->start_date)->format('d/m/Y') . ' s/d ' . \Carbon\Carbon::parse($mou->end_date)->format('d/m/Y') ?? '-' }}
                                 </td>
                                 <td class="py-2 px-4">{{ $mou->type_of_contract ?? '-' }}</td>
+                                @if ($mou->end_date < now())
+                                    <td class="text-red-600 font-bold">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-exclamation-circle-fill justify-self-center"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
+                                        </svg>
+                                    </td>
+                                @else
+                                    <td class="text-green-600 font-bold">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-check-circle-fill justify-self-center"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                        </svg>
+                                    </td>
+                                @endif
                                 <td class="py-2 px-4">
                                     <div class="flex justify-center items-center space-x-2">
                                         {{-- ! read button start --}}
@@ -132,7 +182,8 @@
                                         </a>
                                         {{-- ! update button end --}}
                                         {{-- ! delete button start --}}
-                                        <form action="{{ route('admin.mou.destroy', ['id' => $mou->id]) }}" method="POST"
+                                        <form action="{{ route('admin.mou.destroy', ['id' => $mou->id]) }}"
+                                            method="POST"
                                             class="inline-block transition duration-300 translate-y-[2px] hover:scale-110">
                                             @method('DELETE')
                                             @csrf
@@ -154,7 +205,32 @@
                 </tbody>
             </table>
         </div>
-        {{-- ? mitra table end --}}
+        {{-- ? mou table end --}}
+        {{-- Link pagination --}}
+        <div class="flex justify-end items-center mb-4">
+            <form id="paginationForm" method="GET" action="{{ url()->current() }}"
+                class="flex items-center space-x-2">
+                @if (request('filter'))
+                    <input type="hidden" name="filter" value="{{ request('filter') }}">
+                @endif
+                @if (request('search'))
+                    <input type="hidden" name="search" value="{{ request('search') }}">
+                @endif
+                {{-- <input type="hidden" name="search" value="{{ request('search') }}">
+                <input type="hidden" name="filter" value="{{ request('filter') }}"> --}}
+                <label for="perPage" class="text-sm font-medium text-gray-700">Tampilkan:</label>
+                <select name="perPage" id="perPage" class="border rounded-md py-1 px-2 text-sm"
+                    onchange="this.form.submit()">
+                    <option value="2" {{ request('perPage') == 2 ? 'selected' : '' }}>2</option>
+                    <option value="3" {{ request('perPage') == 3 ? 'selected' : '' }}>3</option>
+                    <option value="4" {{ request('perPage') == 4 ? 'selected' : '' }}>4</option>
+                    <option value="5" {{ request('perPage') == 5 ? 'selected' : '' }}>5</option>
+                </select>
+            </form>
+        </div>
+        <div class="mt-4">
+            {{ $mous->appends(['perPage' => request('perPage')])->links() }}
+        </div>
     </main>
     {{-- * main end --}}
 
