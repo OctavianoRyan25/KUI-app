@@ -63,7 +63,7 @@
         </button>
       </form>
       <div>
-        <button class="bg-yellow-500 text-white mr-2 mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-yellow-600 hover:scale-105" onclick="openModal()">Jenis Mitra</button>
+        <button class="bg-yellow-500 text-white mr-2 mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-yellow-600 hover:scale-105" onclick="openModal()">Kriteria Mitra</button>
         <a href="{{ route('admin.mitra.create') }}" class="bg-[#003d7a] text-white mb-4 py-2 px-4 inline-block font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Tambah Mitra</a>
       </div>
     </div>
@@ -80,7 +80,6 @@
             <th class="py-4 px-6">Regional</th>
             <th class="py-4 px-6">Kota</th>
             <th class="py-4 px-6">Negara</th>
-            <th class="py-4 px-6">Jenis Mitra</th>
             <th class="py-4 px-6">Aksi</th>
           </tr>
         </thead>
@@ -94,7 +93,6 @@
               <td class="py-2 px-4">{{ $mitra->regional ?? '-' }}</td>
               <td class="py-2 px-4">{{ $mitra->kota ?? '-' }}</td>
               <td class="py-2 px-4">{{ $mitra->negara ?? '-' }}</td>
-              <td class="py-2 px-4">{{ $mitra->jenis_mitra ?? '-' }}</td>
               <td class="py-2 px-4">
                 <div class="flex justify-center items-center space-x-2">
                   {{-- ! read button start --}}
@@ -136,8 +134,8 @@
     <div id="createJenisMitraModal" class="bg-gray-900 hidden justify-center items-center inset-0 bg-opacity-50 transition-opacity duration-300 fixed">
       <div id="createJenisMitraContent" class="bg-white w-full p-6 rounded-lg shadow-lg opacity-0 transform scale-90 transition-all duration-300 sm:w-3/4 lg:w-6/12">
         <header class="flex justify-between">
-          <h2 class="mb-4 inline-block text-xl font-bold">Jenis Mitra</h2>
-          <button type="button" id="tambah-button" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105" onclick="openForm()">Tambah Jenis Mitra</button>
+          <h2 class="mb-4 inline-block text-xl font-bold">Kriteria Mitra</h2>
+          <button type="button" id="tambah-button" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105" onclick="openForm()">Tambah Kriteria Mitra</button>
           <button type="button" id="kembali-button" class="bg-red-500 text-white mb-4 py-2 px-4 hidden font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105" onclick="closeForm()">Kembali</button>
         </header>
         <hr class="bg-black mb-4">
@@ -147,8 +145,7 @@
               <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase sticky top-0 z-[1]">
                 <tr>
                   <th class="py-4 px-6">No.</th>
-                  <th class="py-4 px-6">Jenis Mitra</th>
-                  <th class="py-4 px-6">Induk</th>
+                  <th class="py-4 px-6">Kriteria Mitra</th>
                   <th class="py-4 px-6">Aksi</th>
                 </tr>
               </thead>
@@ -157,7 +154,6 @@
                   <tr class="odd:bg-white even:bg-gray-300">
                     <td class="py-2 px-4">{{ $loop->iteration }}</td>
                     <td class="py-2 px-4">{{ $jenisMitra->jenis_mitra }}</td>
-                    <td class="py-2 px-4">{{ $jenisMitra->induk ?? '-' }}</td>
                     <td class="py-2 px-4">
                       <div class="flex justify-center items-center space-x-2">
                         {{-- ! delete button start --}}
@@ -183,23 +179,12 @@
           </div>
         </div>
         <div id="section-form" class="hidden">
-          <img src="{{ asset('assets/user.png') }}" alt="Jenis Mitra Assets" class="w-1/4 mx-auto mb-4">
+          <img src="{{ asset('assets/user.png') }}" alt="Kriteria Mitra Assets" class="w-1/4 mx-auto mb-4">
           <form action="{{ route('admin.mitra.jenisMitra.store') }}" method="post" class="flex flex-wrap">
             @csrf
-            <div class="w-full mb-6 px-3 lg:w-1/2">
-              <label for="jenis-mitra">Jenis Mitra:</label>
+            <div class="w-full mb-6 px-3">
+              <label for="jenis-mitra">Kriteria Mitra:</label>
               <input type="text" name="jenis_mitra" id="jenis-mitra" placeholder="..." class="w-full mt-2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-[#003d7a] sm:text-sm">
-            </div>
-            <div class="w-full mb-6 px-3 lg:w-1/2">
-              <label for="induk">Induk:</label>
-              <select name="induk" id="induk" class="w-full mt-2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-[#003d7a] sm:text-sm">
-                <option value="">-- Pilih induk --</option>
-                <option value="Induk pertama">Induk pertama</option>
-                <option value="Induk kedua">Induk kedua</option>
-                <option value="Induk ketiga">Induk ketiga</option>
-                <option value="Induk keempat">Induk keempat</option>
-                <option value="Induk kelima">Induk kelima</option>
-              </select>
             </div>
             <div class="w-full px-3 flex justify-end">
               <button onclick="closeModal()" class="bg-red-500 text-white mr-2 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105">Close</button>
@@ -277,7 +262,7 @@
       const sectionForm = document.getElementById('section-form');
       const sectionList = document.getElementById('section-list');
 
-      judul.textContent = 'Tambah Jenis Mitra';
+      judul.textContent = 'Tambah Kriteria Mitra';
 
       tambahButton.classList.add('hidden');
       kembaliButton.classList.remove('hidden');
@@ -293,7 +278,7 @@
       const sectionForm = document.getElementById('section-form');
       const sectionList = document.getElementById('section-list');
 
-      judul.textContent = 'Jenis Mitra';
+      judul.textContent = 'Kriteria Mitra';
 
       kembaliButton.classList.add('hidden');
       tambahButton.classList.remove('hidden');
