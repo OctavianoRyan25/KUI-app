@@ -25,4 +25,29 @@ class Mitra extends Model
             return $query->where('nama_mitra', 'like', '%' . $search . '%');
         });
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(isset($filters['filter']) && in_array($filters['filter'], ['Dalam negeri (regional)', 'Dalam negeri (nasional)', 'Luar negeri']), function ($query) use ($filters) {
+            return $query->where('tingkat', $filters['filter']);
+        });
+
+        $query->when(isset($filters['filter']) && $filters['filter'] === 'latest', function ($query) {
+            return $query->orderBy('created_at', 'DESC');
+        });
+
+        $query->when(isset($filters['filter']) && $filters['filter'] === 'oldest', function ($query) {
+            return $query->orderBy('created_at', 'ASC');
+        });
+
+        $query->when(isset($filters['filter']) && $filters['filter'] === 'alphabet', function ($query) {
+            return $query->orderBy('nama_mitra', 'ASC');
+        });
+
+        if (!isset($filters['filter'])) {
+            $query->orderBy('created_at', 'ASC');
+        }
+
+        return $query;
+    }
 }
