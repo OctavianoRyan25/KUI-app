@@ -22,7 +22,7 @@ class MitraController extends Controller
     public function index(Request $request)
     {
         $jenisMitras = JenisMitra::all();
-        $perPage = $request->input('perPage', 10);
+        $perPage = $request->input('perPage', 20);
         $mitras = Mitra::search(request(['search']))
             ->filter(request(['filter']))
             ->paginate($perPage)
