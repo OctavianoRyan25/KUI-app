@@ -63,8 +63,26 @@
         </button>
       </form>
       <div>
-        <button class="bg-yellow-500 text-white mr-2 mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-yellow-600 hover:scale-105" onclick="openModal()">Jenis Mitra</button>
+        <button class="bg-yellow-500 text-white mr-2 mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-yellow-600 hover:scale-105" onclick="openModal()">Kriteria Mitra</button>
         <a href="{{ route('admin.mitra.create') }}" class="bg-[#003d7a] text-white mb-4 py-2 px-4 inline-block font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">Tambah Mitra</a>
+        <div x-data="{ open: false }" class="relative mb-4 inline-block top-[5.5px]">
+          <button @click="open = !open" class="bg-[#003d7a] text-white py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+              <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+            </svg>
+          </button>
+          <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 mt-2 w-56 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+            <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Tingkat</p>
+            <a href="{{ route('admin.mitra.index', ['filter' => 'Dalam negeri (regional)']) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dalam negeri (regional)</a>
+            <a href="{{ route('admin.mitra.index', ['filter' => 'Dalam negeri (nasional)']) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dalam negeri (nasional)</a>
+            <a href="{{ route('admin.mitra.index', ['filter' => 'Luar negeri']) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Luar negeri</a>
+            <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Urut Berdasar</p>
+            <a href="{{ route('admin.mitra.index', ['filter' => 'latest']) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Terbaru</a>
+            <a href="{{ route('admin.mitra.index', ['filter' => 'oldest']) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Terlama</a>
+            <a href="{{ route('admin.mitra.index', ['filter' => 'alphabet']) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">A–Z</a>
+            <a href="{{ route('admin.mitra.index') }}" class="block mt-5 px-4 py-2 text-gray-700 font-semibold hover:bg-gray-100">Reset filter</a>
+          </div>
+        </div>
       </div>
     </div>
     {{-- ? tambah mitra button end --}}
@@ -80,7 +98,6 @@
             <th class="py-4 px-6">Regional</th>
             <th class="py-4 px-6">Kota</th>
             <th class="py-4 px-6">Negara</th>
-            <th class="py-4 px-6">Jenis Mitra</th>
             <th class="py-4 px-6">Aksi</th>
           </tr>
         </thead>
@@ -94,7 +111,6 @@
               <td class="py-2 px-4">{{ $mitra->regional ?? '-' }}</td>
               <td class="py-2 px-4">{{ $mitra->kota ?? '-' }}</td>
               <td class="py-2 px-4">{{ $mitra->negara ?? '-' }}</td>
-              <td class="py-2 px-4">{{ $mitra->jenis_mitra ?? '-' }}</td>
               <td class="py-2 px-4">
                 <div class="flex justify-center items-center space-x-2">
                   {{-- ! read button start --}}
@@ -132,12 +148,37 @@
     </div>
     {{-- ? mitra table end --}}
 
+    {{-- ? pagination start --}}
+    <div class="flex justify-end items-center mb-4">
+      <form id="paginationForm" method="GET" action="{{ url()->current() }}" class="flex items-center space-x-2">
+        @if (request('filter'))
+          <input type="hidden" name="filter" value="{{ request('filter') }}">
+        @endif
+        @if (request('search'))
+          <input type="hidden" name="search" value="{{ request('search') }}">
+        @endif
+        <input type="hidden" name="filter" value="{{ request('filter') }}">
+        <label for="perPage" class="text-sm font-medium text-gray-700">Tampilkan:</label>
+        <select name="perPage" id="perPage" class="border rounded-md py-1 px-2 text-sm" onchange="this.form.submit()">
+          <option value="" {{ request('perPage') == 0 ? 'selected' : '' }}>-- Jumlah pagination --</option>
+          <option value="2" {{ request('perPage') == 2 ? 'selected' : '' }}>2</option>
+          <option value="3" {{ request('perPage') == 3 ? 'selected' : '' }}>3</option>
+          <option value="4" {{ request('perPage') == 4 ? 'selected' : '' }}>4</option>
+          <option value="5" {{ request('perPage') == 5 ? 'selected' : '' }}>5</option>
+        </select>
+      </form>
+    </div>
+    <div class="mt-4">
+      {{ $mitras->appends(['perPage' => request('perPage')])->links() }}
+    </div>
+    {{-- ? pagination end --}}
+
     {{-- ? modal start --}}
     <div id="createJenisMitraModal" class="bg-gray-900 hidden justify-center items-center inset-0 bg-opacity-50 transition-opacity duration-300 fixed">
       <div id="createJenisMitraContent" class="bg-white w-full p-6 rounded-lg shadow-lg opacity-0 transform scale-90 transition-all duration-300 sm:w-3/4 lg:w-6/12">
         <header class="flex justify-between">
-          <h2 class="mb-4 inline-block text-xl font-bold">Jenis Mitra</h2>
-          <button type="button" id="tambah-button" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105" onclick="openForm()">Tambah Jenis Mitra</button>
+          <h2 class="mb-4 inline-block text-xl font-bold">Kriteria Mitra</h2>
+          <button type="button" id="tambah-button" class="bg-[#003d7a] text-white mb-4 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105" onclick="openForm()">Tambah Kriteria Mitra</button>
           <button type="button" id="kembali-button" class="bg-red-500 text-white mb-4 py-2 px-4 hidden font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105" onclick="closeForm()">Kembali</button>
         </header>
         <hr class="bg-black mb-4">
@@ -147,8 +188,7 @@
               <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase sticky top-0 z-[1]">
                 <tr>
                   <th class="py-4 px-6">No.</th>
-                  <th class="py-4 px-6">Jenis Mitra</th>
-                  <th class="py-4 px-6">Induk</th>
+                  <th class="py-4 px-6">Kriteria Mitra</th>
                   <th class="py-4 px-6">Aksi</th>
                 </tr>
               </thead>
@@ -157,7 +197,6 @@
                   <tr class="odd:bg-white even:bg-gray-300">
                     <td class="py-2 px-4">{{ $loop->iteration }}</td>
                     <td class="py-2 px-4">{{ $jenisMitra->jenis_mitra }}</td>
-                    <td class="py-2 px-4">{{ $jenisMitra->induk ?? '-' }}</td>
                     <td class="py-2 px-4">
                       <div class="flex justify-center items-center space-x-2">
                         {{-- ! delete button start --}}
@@ -183,23 +222,12 @@
           </div>
         </div>
         <div id="section-form" class="hidden">
-          <img src="{{ asset('assets/user.png') }}" alt="Jenis Mitra Assets" class="w-1/4 mx-auto mb-4">
+          <img src="{{ asset('assets/user.png') }}" alt="Kriteria Mitra Assets" class="w-1/4 mx-auto mb-4">
           <form action="{{ route('admin.mitra.jenisMitra.store') }}" method="post" class="flex flex-wrap">
             @csrf
-            <div class="w-full mb-6 px-3 lg:w-1/2">
-              <label for="jenis-mitra">Jenis Mitra:</label>
+            <div class="w-full mb-6 px-3">
+              <label for="jenis-mitra">Kriteria Mitra:</label>
               <input type="text" name="jenis_mitra" id="jenis-mitra" placeholder="..." class="w-full mt-2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-[#003d7a] sm:text-sm">
-            </div>
-            <div class="w-full mb-6 px-3 lg:w-1/2">
-              <label for="induk">Induk:</label>
-              <select name="induk" id="induk" class="w-full mt-2 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-[#003d7a] sm:text-sm">
-                <option value="">-- Pilih induk --</option>
-                <option value="Induk pertama">Induk pertama</option>
-                <option value="Induk kedua">Induk kedua</option>
-                <option value="Induk ketiga">Induk ketiga</option>
-                <option value="Induk keempat">Induk keempat</option>
-                <option value="Induk kelima">Induk kelima</option>
-              </select>
             </div>
             <div class="w-full px-3 flex justify-end">
               <button onclick="closeModal()" class="bg-red-500 text-white mr-2 py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-red-600 hover:scale-105">Close</button>
@@ -277,7 +305,7 @@
       const sectionForm = document.getElementById('section-form');
       const sectionList = document.getElementById('section-list');
 
-      judul.textContent = 'Tambah Jenis Mitra';
+      judul.textContent = 'Tambah Kriteria Mitra';
 
       tambahButton.classList.add('hidden');
       kembaliButton.classList.remove('hidden');
@@ -293,7 +321,7 @@
       const sectionForm = document.getElementById('section-form');
       const sectionList = document.getElementById('section-list');
 
-      judul.textContent = 'Jenis Mitra';
+      judul.textContent = 'Kriteria Mitra';
 
       kembaliButton.classList.add('hidden');
       tambahButton.classList.remove('hidden');

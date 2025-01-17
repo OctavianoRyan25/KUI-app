@@ -79,26 +79,18 @@
                     <label for="kriteria-mitra" class="text-gray-700 block text-sm font-medium">Kriteria Mitra:</label>
                     <select name="kriteria_mitra" id="kriteria-mitra"
                         class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>
-                        <option value="">-- Pilih kriteria --</option>
-                        @foreach ($kriterias as $kriteria)
-                            @if (old('kriteria_mitra', $mitra->kriteria_mitra) == $kriteria)
-                                <option value="{{ $kriteria }}" selected>{{ $kriteria }}</option>
-                            @else
-                                <option value="{{ $kriteria }}">{{ $kriteria }}</option>
-                            @endif
-                        @endforeach
+                        <option value="{{ $mitra->kriteria_mitra ?? '' }}">{{ $mitra->kriteria_mitra ?? '-' }}</option>
                     </select>
                 </div>
                 <div class="w-full mb-6 px-3 lg:w-1/4">
                     <label for="tingkat" class="text-gray-700 block text-sm font-medium">Tingkat:</label>
                     <select name="tingkat" id="tingkat"
                         class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>
-                        <option value="">-- Pilih tingkat --</option>
                         @foreach ($tingkats as $tingkat)
                             @if (old('tingkat', $mitra->tingkat) == $tingkat)
                                 <option value="{{ $tingkat }}" selected>{{ $tingkat }}</option>
                             @else
-                                <option value="{{ $tingkat }}">{{ $tingkat }}</option>
+                                <option value="">-</option>
                             @endif
                         @endforeach
                     </select>
@@ -131,17 +123,6 @@
                         class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>
                         @if (old('negara', $mitra->negara))
                             <option value="{{ $mitra->negara }}">{{ $mitra->negara }}</option>
-                        @else
-                            <option value="">-</option>
-                        @endif
-                    </select>
-                </div>
-                <div class="w-full mb-6 px-3 lg:w-1/4">
-                    <label for="jenis-mitra" class="text-gray-700 block text-sm font-medium">Jenis Mitra:</label>
-                    <select name="jenis_mitra" id="jenis-mitra"
-                        class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>
-                        @if (old('jenis_mitra', $mitra->jenis_mitra))
-                            <option value="{{ $mitra->jenis_mitra }}">{{ $mitra->jenis_mitra }}</option>
                         @else
                             <option value="">-</option>
                         @endif
