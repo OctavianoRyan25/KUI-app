@@ -24,9 +24,9 @@ class MoU extends Model
 
     protected $table = 'mous';
 
-    protected $casts = [
-        'type_of_contract' => 'array',
-    ];
+    // protected $casts = [
+    //     'type_of_contract' => 'array',
+    // ];
 
     public function mitra()
     {
