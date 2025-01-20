@@ -19,10 +19,14 @@ class MitraController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mitras = Mitra::orderBy('created_at', 'ASC')->search(request(['search']))->get();
         $jenisMitras = JenisMitra::all();
+        $perPage = $request->input('perPage', 20);
+        $mitras = Mitra::search(request(['search']))
+            ->filter(request(['filter']))
+            ->paginate($perPage)
+            ->appends($request->query());
 
         return view('admin.mitra', [
             'mitras' => $mitras,
@@ -111,7 +115,7 @@ class MitraController extends Controller
      */
     public function show(string $id)
     {
-        $mitra = Mitra::with('mitra_kontaks')->findOrFail($id);
+        $mitra = Mitra::with('mitra_kontaks', 'mous')->findOrFail($id);
         $kriterias = [
             'Kriteria pertama',
             'Kriteria kedua',

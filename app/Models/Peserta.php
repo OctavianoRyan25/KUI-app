@@ -10,11 +10,28 @@ class Peserta extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nip', 'name', 'division', 'position', 'email', 'study_program', 'phone_number', 'faculty', 'information'
+        'nip',
+        'name',
+        'division',
+        'position',
+        'email',
+        'study_program',
+        'phone_number',
+        'faculty',
+        'information'
     ];
 
     public function events()
     {
         return $this->belongsToMany(Event::class, 'event_peserta')->withPivot('signature', 'is_present')->withTimestamps();
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        if (is_string($search)) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        return $query;
     }
 }
