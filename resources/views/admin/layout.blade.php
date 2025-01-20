@@ -11,9 +11,9 @@
     @yield('ex-css') --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js" defer></script> --}}
-    @vite('resources/css/app.css')
-    {{-- <script type="module" src="{{ asset('build/assets/app-z-Rg4TxU.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BSVtNpH8.css') }}"> --}}
+    {{-- @vite('resources/css/app.css') --}}
+    <script type="module" src="{{ asset('build/assets/app-z-Rg4TxU.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('build/assets/app-Czl1uA6v.css') }}">
 </head>
 
 <body class="bg-gray-100">
@@ -61,8 +61,8 @@
                     href="/admin/event">Event</a>
                 <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/peserta') ? 'bg-yellow-500 text-black' : '' }}"
                     href="/admin/peserta">Peserta</a>
-                <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/letter') ? 'bg-yellow-500 text-black' : '' }}"
-                    href="/admin/letter">Letter</a>
+                {{-- <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/letter') ? 'bg-yellow-500 text-black' : '' }}"
+                    href="/admin/letter">Letter</a> --}}
                 <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline {{ request()->is('admin/research-collaboration') ? 'bg-yellow-500 text-black' : '' }}"
                     href="/admin/research-collaboration">Kolaborasi Penelitian</a>
                 <a class="bg-transparent text-white mt-2 py-2 px-4 block text-sm font-semibold rounded-lg hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 focus:outline-none focus:shadow-outline {{ request()->is('admin/kerja-sama*') ? 'bg-yellow-500 text-black' : '' }}"

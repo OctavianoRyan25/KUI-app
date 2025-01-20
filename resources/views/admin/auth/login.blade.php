@@ -89,7 +89,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="icon" href="{{ asset('assets/logo-udinus.png') }}" type="image/x-icon">
-    @vite('resources/css/app.css')
+    {{-- @vite('resources/css/app.css') --}}
+    <link rel="stylesheet" href="{{ asset('build/assets/app-Czl1uA6v.css') }}">
+    <script type="module" src="{{ asset('build/assets/app-z-Rg4TxU.js') }}"></script>
     <style>
         body {
             background-color: #ffffff;

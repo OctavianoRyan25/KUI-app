@@ -15,7 +15,7 @@ class MoUController extends Controller
     public function index(Request $request)
     {
         $categories = CategoryOfMou::all();
-        $perPage = $request->input('perPage', 1);
+        $perPage = $request->input('perPage', 10);
         $mous = MoU::with('mitra', 'categories')
             ->search(request(['search']))
             ->filter(request(['filter']))

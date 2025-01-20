@@ -240,11 +240,11 @@
                     <label for="perPage" class="text-sm font-medium text-gray-700">Per Page</label>
                     <select name="perPage" id="perPage" class="rounded-md py-1 px-2 text-sm"
                         onchange="this.form.submit()">
-                        <option value="1" {{ request('perPage') == 1 ? 'selected' : '' }}>1</option>
-                        <option value="2" {{ request('perPage') == 2 ? 'selected' : '' }}>2</option>
-                        <option value="3" {{ request('perPage') == 3 ? 'selected' : '' }}>3</option>
-                        <option value="4" {{ request('perPage') == 4 ? 'selected' : '' }}>4</option>
-                        <option value="5" {{ request('perPage') == 5 ? 'selected' : '' }}>5</option>
+                        <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10</option>
+                        <option value="20" {{ request('perPage') == 20 ? 'selected' : '' }}>20</option>
+                        <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50</option>
+                        <option value="100" {{ request('perPage') == 100 ? 'selected' : '' }}>100</option>
+                        <option value="1000" {{ request('perPage') == 1000 ? 'selected' : '' }}>1000</option>
                     </select>
                 </form>
             </div>

@@ -10,7 +10,7 @@
     <!-- Tailwind CSS -->
     {{-- @vite('resources/css/app.css') --}}
     <script type="module" src="{{ asset('build/assets/app-z-Rg4TxU.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('build/assets/app-CApFbT9w.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-Czl1uA6v.css') }}">
     <style>
         .scrollable-table {
             overflow-x: auto;
