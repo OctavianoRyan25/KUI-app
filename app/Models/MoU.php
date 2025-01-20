@@ -33,6 +33,11 @@ class MoU extends Model
         return $this->belongsTo(Mitra::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(CategoryOfMoU::class, 'mou_category', 'mou_id', 'category_of_mou_id')->withTimestamps();
+    }
+
     public function scopeSearch($query, array $searches)
     {
         $query->when($searches['search'] ?? false, function ($query, $search) {
@@ -64,5 +69,14 @@ class MoU extends Model
 
         return $query;
         // dd($query->toSql());
+    }
+
+    public function scopeCategory($query, array $categories)
+    {
+        $query->when($categories['category'] ?? false, function ($query, $category) {
+            return $query->whereHas('categories', function ($query) use ($category) {
+                return $query->where('category_of_mou_id', $category);
+            });
+        });
     }
 }

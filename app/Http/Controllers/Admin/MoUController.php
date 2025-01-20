@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\CategoryOfMou;
 use App\Models\Mitra;
 use App\Models\MoU;
 use Illuminate\Support\Facades\Log;
@@ -13,13 +14,15 @@ class MoUController extends Controller
 {
     public function index(Request $request)
     {
+        $categories = CategoryOfMou::all();
         $perPage = $request->input('perPage', 1);
-        $mous = MoU::with('mitra')
+        $mous = MoU::with('mitra', 'categories')
             ->search(request(['search']))
             ->filter(request(['filter']))
+            ->category(request(['category']))
             ->paginate($perPage)
             ->appends($request->query());
-        return view('admin.mou', compact('mous'));
+        return view('admin.mou', compact('mous', 'categories'));
     }
 
     public function searchMitra(Request $request)
@@ -31,7 +34,8 @@ class MoUController extends Controller
     public function create()
     {
         $mitras = Mitra::all();
-        return view('admin.create_mou', compact('mitras'));
+        $categories = CategoryOfMou::all();
+        return view('admin.create_mou', compact('mitras', 'categories'));
     }
 
     public function store(Request $request)
@@ -46,7 +50,8 @@ class MoUController extends Controller
             'type_of_contract' => 'required|array',
             'contract_value' => 'required|numeric',
             'description' => 'nullable|string',
-            'MoU_path' => 'required|file|mimes:pdf|max:2048',
+            'MoU_path' => 'file|mimes:pdf|max:2048',
+            'category_ids' => 'required|array',
         ]);
         try {
             if ($request->hasFile('MoU_path')) {
@@ -55,7 +60,8 @@ class MoUController extends Controller
                 $validated['MoU_path'] = $filePath;
             }
             $validated['type_of_contract'] = implode(',', $validated['type_of_contract']);
-            MoU::create($validated);
+            $mou = MoU::create($validated);
+            $mou->categories()->attach($request->category_ids);
             Alert::toast('MoU created successfully', 'success');
             return redirect()->route('admin.mou.index');
         } catch (\Exception $e) {
@@ -67,7 +73,7 @@ class MoUController extends Controller
 
     public function show($id)
     {
-        $mou = MoU::with('mitra')->findOrFail($id);
+        $mou = MoU::with('mitra', 'categories')->findOrFail($id);
         return view('admin.detail_mou', compact('mou'));
     }
 
@@ -122,5 +128,11 @@ class MoUController extends Controller
             Alert::toast($e->getMessage(), 'error');
             return redirect()->back();
         }
+    }
+
+    public function searchByCategory()
+    {
+        $categories = MoU::where('type_of_contract', 'like', '%' . request('category') . '%')->get();
+        return response()->json($categories, 200);
     }
 }

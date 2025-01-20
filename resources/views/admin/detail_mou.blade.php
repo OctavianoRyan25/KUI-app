@@ -88,11 +88,6 @@
                         class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>
                 </div>
                 <div class="w-full mb-6 px-3 lg:w-1/4">
-                    <label for="type_of_contract" class="text-gray-700 block text-sm font-medium">Tipe Kontrak:</label>
-                    <input type="text" name="type_of_contract" id="type_of_contract" value="{{ $mou->type_of_contract }}"
-                        class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>
-                </div>
-                <div class="w-full mb-6 px-3 lg:w-1/4">
                     <label for="satrt_date-end_date" class="text-gray-700 block text-sm font-medium">Masa Berlaku:</label>
                     <input type="text" name="start_date-end_date" id="satrt_date-end_date"
                         value="{{ old('start_date-end_date', \Carbon\Carbon::parse($mou->start_date)->format('d M Y') . ' s/d ' . \Carbon\Carbon::parse($mou->end_date)->format('d M Y') ?? '-') }}"
@@ -104,13 +99,13 @@
                         value="{{ old('contract_value', $mou->contract_value) }}"
                         class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>
                 </div>
-                <div class="w-full mb-6 px-3 lg:w-1/4">
+                <div class="w-full mb-6 px-3 lg:w-2/4">
                     <label class="text-gray-700 block text-sm font-medium">Deskripsi:</span>
                         <textarea name="description" id="description"
                             class="w-full mt-2 p-2 block border border-gray-300 rounded-md shadow sm:text-sm" disabled>{{ old('description', $mou->description) }}</textarea>
                 </div>
                 {{-- download file MOU --}}
-                <div class="w-full mb-6 px-3 lg:w-1/4">
+                <div class="w-full mb-6 px-3 lg:w-1/6">
                     <label class="text-gray-700 block text-sm font-medium">Download File:</label>
                     <a href="{{ asset('storage/' . $mou->MoU_path) }}"
                         class="group text-[#003d7a] py-2 px-3 mt-2 font-semibold tracking-wide rounded-md transition-all duration-300 transform hover:bg-[#003d7a] hover:text-white hover:border-white hover:shadow-lg inline-flex border-2 border-[#003d7a] border-solid bg-white items-center justify-center space-x-2">
@@ -123,7 +118,7 @@
                         <span>Download</span>
                     </a>
                 </div>
-                <div class="w-full mb-6 px-3 lg:w-1/4">
+                <div class="w-full mb-6 px-3 lg:w-1/6">
                     <label for="mitra" class="text-gray-700 block text-sm font-medium">Mitra:</label>
                     <a href="{{ route('admin.mitra.show', ['id' => $mou->mitra->id]) }}"
                         class="group text-[#003d7a] py-2 px-3 mt-2 font-semibold tracking-wide rounded-md transition-all duration-300 transform hover:bg-[#003d7a] hover:text-white hover:border-white hover:shadow-lg inline-flex border-2 border-[#003d7a] border-solid bg-white items-center justify-center space-x-2">
@@ -135,6 +130,14 @@
                         </svg>
                         <span>{{ $mou->mitra->nama_mitra }}<span>
                     </a>
+                </div>
+                <div class="w-full mb-6 px-3 lg:w-2/4">
+                    <label for="type_of_contract" class="text-gray-700 block text-sm font-medium">Tipe Kontrak:</label>
+                    @foreach ($mou->categories as $category)
+                        <span class="bg-yellow-600 text-white rounded-full px-2 py-1 text-xs font-bold mr-1 mt-1">
+                            {{ $category->name }}
+                        </span>
+                    @endforeach
                 </div>
             </div>
             {{-- ! mitra form end --}}

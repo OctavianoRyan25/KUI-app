@@ -193,6 +193,23 @@
                     @enderror
                 </div>
 
+                <!-- Kategori MoU -->
+                <div class="mb-4">
+                    <label class="text-gray-700 pl-2">Kategori MoU<span class="text-red-500">*</span></label>
+                    <div class="flex flex-wrap gap-4 mt-2">
+                        @foreach ($categories as $category)
+                            <div class="flex items-center">
+                                <input type="checkbox" name="category_ids[]" value="{{ $category->id }}"
+                                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <label class="ml-2 text-gray-700">{{ $category->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                    @error('type_of_contract')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Lama Kerjasama -->
                 <div class="mb-4">
                     <label class="text-gray-700 pl-2">Lama Kerjasama<span class="text-red-500">*</span></label>

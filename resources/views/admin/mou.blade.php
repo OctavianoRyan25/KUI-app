@@ -81,7 +81,7 @@
                 <!-- Filter Dropdown -->
                 <div x-data="{ open: false }" class="relative mb-4">
                     <button @click="open = !open"
-                        class="bg-[#003d7a] text-white py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:bg-blue-600 hover:scale-105">
+                        class="text-[#003d7a] py-2 px-4 font-bold tracking-wider rounded-md transition duration-300 hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" class="bi bi-funnel"
                             viewBox="0 0 16 16">
                             <path
@@ -97,14 +97,19 @@
                         class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
                         <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Status</p>
                         <a href="{{ route('admin.mou.index', ['filter' => 'active']) }}"
-                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Aktif</a>
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Aktif</a>
                         <a href="{{ route('admin.mou.index', ['filter' => 'expired']) }}"
-                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Kedaluarsa</a>
-                        <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Urut Berdasar</p>
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kedaluarsa</a>
+                        <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Urut Berdasarkan</p>
                         <a href="{{ route('admin.mou.index', ['filter' => 'latest']) }}"
-                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Terbaru</a>
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Terbaru</a>
                         <a href="{{ route('admin.mou.index', ['filter' => 'oldest']) }}"
-                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Terlama</a>
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Terlama</a>
+                        <p class="block px-4 py-2 text-gray-700 font-bold tracking-wider">Kategori</p>
+                        @foreach ($categories as $category)
+                            <a href="{{ route('admin.mou.index', ['category' => $category->id]) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{{ $category->name }}</a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -118,7 +123,7 @@
                         <th class="py-4 px-6">Nomor Dokumen</th>
                         <th class="py-4 px-6">Nama Dokumen</th>
                         <th class="py-4 px-6">Lama Kerjasama</th>
-                        <th class="py-4 px-6">Jenis MoU</th>
+                        <th class="py-4 px-6">Kategori MoU</th>
                         <th class="py-4 px-6">Status</th>
                         <th class="py-4 px-6">Aksi</th>
                     </tr>
@@ -126,18 +131,26 @@
                 <tbody class="text-center">
                     @if ($mous->isEmpty())
                         <tr>
-                            <td colspan="5" class="py-4 px-6 text-gray-500">Data tidak ditemukan</td>
+                            <td colspan="12" class="py-4 px-6 text-gray-500">Data tidak ditemukan</td>
                         </tr>
                     @else
                         @foreach ($mous as $index => $mou)
                             <tr class="odd:bg-white even:bg-gray-300">
-                                <td class="py-2 px-4">{{ $loop->iteration ?? '-' }}</td>
+                                <td class="py-2 px-4">
+                                    {{ ($mous->currentPage() - 1) * $mous->perPage() + $loop->iteration }}</td>
                                 <td class="py-2 px-4">{{ $mou->document_number ?? '-' }}</td>
                                 <td class="py-2 px-4">{{ $mou->document_name ?? '-' }}</td>
                                 <td class="py-2 px-4">
                                     {{ \Carbon\Carbon::parse($mou->start_date)->format('d/m/Y') . ' s/d ' . \Carbon\Carbon::parse($mou->end_date)->format('d/m/Y') ?? '-' }}
                                 </td>
-                                <td class="py-2 px-4">{{ $mou->type_of_contract ?? '-' }}</td>
+                                <td class="py-2 px-4">
+                                    @foreach ($mou->categories as $category)
+                                        <span
+                                            class="bg-yellow-600 text-white rounded-full px-2 py-1 text-xs font-bold mr-1 mt-1">
+                                            {{ $category->name }}
+                                        </span>
+                                    @endforeach
+                                </td>
                                 @if ($mou->end_date < now())
                                     <td class="text-red-600 font-bold">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -145,6 +158,7 @@
                                             viewBox="0 0 16 16">
                                             <path
                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
+                                            <title>Expired</title>
                                         </svg>
                                     </td>
                                 @else
@@ -154,6 +168,7 @@
                                             viewBox="0 0 16 16">
                                             <path
                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                            <title>Active</title>
                                         </svg>
                                     </td>
                                 @endif
@@ -207,26 +222,32 @@
         </div>
         {{-- ? mou table end --}}
         {{-- Link pagination --}}
-        <div class="flex justify-end items-center mb-4">
-            <form id="paginationForm" method="GET" action="{{ url()->current() }}"
-                class="flex items-center space-x-2">
-                @if (request('filter'))
-                    <input type="hidden" name="filter" value="{{ request('filter') }}">
-                @endif
-                @if (request('search'))
-                    <input type="hidden" name="search" value="{{ request('search') }}">
-                @endif
-                {{-- <input type="hidden" name="search" value="{{ request('search') }}">
-                <input type="hidden" name="filter" value="{{ request('filter') }}"> --}}
-                <label for="perPage" class="text-sm font-medium text-gray-700">Tampilkan:</label>
-                <select name="perPage" id="perPage" class="border rounded-md py-1 px-2 text-sm"
-                    onchange="this.form.submit()">
-                    <option value="2" {{ request('perPage') == 2 ? 'selected' : '' }}>2</option>
-                    <option value="3" {{ request('perPage') == 3 ? 'selected' : '' }}>3</option>
-                    <option value="4" {{ request('perPage') == 4 ? 'selected' : '' }}>4</option>
-                    <option value="5" {{ request('perPage') == 5 ? 'selected' : '' }}>5</option>
-                </select>
-            </form>
+        <div class="flex justify-center items-center mb-4 border-t border-b py-4">
+            <div class=" border rounded-md py-1 px-2 text-sm bg-white">
+                <form id="paginationForm" method="GET" action="{{ url()->current() }}"
+                    class="flex items-center space-x-2">
+                    @if (request('filter'))
+                        <input type="hidden" name="filter" value="{{ request('filter') }}">
+                    @endif
+                    @if (request('search'))
+                        <input type="hidden" name="search" value="{{ request('search') }}">
+                    @endif
+                    @if (request('category'))
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                    @endif
+                    {{-- <input type="hidden" name="search" value="{{ request('search') }}">
+                    <input type="hidden" name="filter" value="{{ request('filter') }}"> --}}
+                    <label for="perPage" class="text-sm font-medium text-gray-700">Per Page</label>
+                    <select name="perPage" id="perPage" class="rounded-md py-1 px-2 text-sm"
+                        onchange="this.form.submit()">
+                        <option value="1" {{ request('perPage') == 1 ? 'selected' : '' }}>1</option>
+                        <option value="2" {{ request('perPage') == 2 ? 'selected' : '' }}>2</option>
+                        <option value="3" {{ request('perPage') == 3 ? 'selected' : '' }}>3</option>
+                        <option value="4" {{ request('perPage') == 4 ? 'selected' : '' }}>4</option>
+                        <option value="5" {{ request('perPage') == 5 ? 'selected' : '' }}>5</option>
+                    </select>
+                </form>
+            </div>
         </div>
         <div class="mt-4">
             {{ $mous->appends(['perPage' => request('perPage')])->links() }}
@@ -309,6 +330,12 @@
             sectionList.classList.remove('hidden');
         }
         // ? modal end
+        document.getElementById('search').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Mencegah reload default
+                this.form.submit(); // Submit form secara manual
+            }
+        });
     </script>
     {{-- * javascript end --}}
 @endsection

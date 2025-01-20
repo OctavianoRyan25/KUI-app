@@ -65,6 +65,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
     Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
     Route::post('/peserta/import', [PesertaController::class, 'import'])->name('admin.peserta.import');
+    Route::put('/peserta/update', [PesertaController::class, 'update'])->name('admin.peserta.update');
     Route::delete('/peserta/{id}', [PesertaController::class, 'destroy'])->name('admin.peserta.delete');
 
     Route::get('/kerma', [KermaController::class, 'getByTridharma'])->name('admin.getKerma');
