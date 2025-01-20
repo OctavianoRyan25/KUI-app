@@ -222,6 +222,50 @@
                 </div>
             </div>
             {{-- ! mitra kontak form end --}}
+            {{-- MOU list --}}
+            <div class="px-3 flex flex-wrap">
+                <label for="logo-mitra" class="text-gray-700 block text-sm font-medium">List MOU:</label>
+                <div class="bg-white w-full mt-2 mb-6 rounded-md shadow overflow-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-[#003d7a] text-white text-sm font-bold tracking-wider text-center uppercase">
+                            <tr>
+                                <th class="py-4 px-6">Nomor MOU</th>
+                                <th class="py-4 px-6">Tanggal MOU</th>
+                                <th class="py-4 px-6">Nama MOU</th>
+                                <th class="py-4 px-6">File MOU</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            @foreach ($mitra->mous as $mitra_mou)
+                                <tr class="odd:bg-white even:bg-gray-300">
+                                    <td class="py-2 px-3 border-[#003d7a] border-r">
+                                        <input type="text" id="nomor-mou"
+                                            value="{{ $mitra_mou->document_number ?? '-' }}"
+                                            class="bg-transparent w-full outline-none" disabled>
+                                    </td>
+                                    <td class="py-2 px-3 border-[#003d7a] border-x">
+                                        <input type="text" id="tanggal-mou"
+                                            value="{{ \Carbon\Carbon::parse($mitra_mou->start_date)->format('d-m-Y') . ' s/d ' . \Carbon\Carbon::parse($mitra_mou->end_date)->format('d-m-Y') ?? '-' }}"
+                                            class="bg-transparent w-full outline-none" disabled>
+                                    </td>
+                                    <td class="py-2 px-3 border-[#003d7a] border-x">
+                                        <input type="text" id="tahun-mou"
+                                            value="{{ $mitra_mou->document_name ?? '-' }}"
+                                            class="bg-transparent w-full outline-none" disabled>
+                                    </td>
+                                    <td class="py-2 px-3 border-[#003d7a] border-l">
+                                        <a href="{{ asset('storage/' . $mitra_mou->MoU_path) }}"
+                                            class="text-blue-600 underline">Download</a>
+                                        <a href="{{ route('admin.mou.show', ['id' => $mitra_mou->id]) }}"
+                                            class="text-blue-600 underline">Detail</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{-- MOU end list --}}
             {{-- ! action button start --}}
             <div class="flex flex-wrap">
                 <div class="w-full px-3 flex justify-start space-x-2 sm:justify-end">

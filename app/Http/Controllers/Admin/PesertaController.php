@@ -33,7 +33,11 @@ class PesertaController extends Controller
      */
     public function index()
     {
-        $pesertas = Peserta::paginate(10);
+        $search = request('search');
+        $pesertas = Peserta::search($search)
+            ->paginate(10)
+            ->appends(['search' => $search]);
+
         return view('admin.peserta', compact('pesertas'));
     }
 
@@ -90,17 +94,49 @@ class PesertaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Peserta $peserta)
-    {
-        //
-    }
+    public function edit(Request $request) {}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePesertaRequest $request, Peserta $peserta)
+    public function update(UpdatePesertaRequest $request)
     {
-        //
+        $validate = $request->validate([
+            'id' => 'required|exists:pesertas,id',
+            'nip' => 'required',
+            'name' => 'required',
+            'division' => 'nullable',
+            'position' => 'nullable',
+            'email' => 'nullable|email',
+            'study_program' => 'nullable',
+            'phone_number' => 'nullable',
+            'faculty' => 'nullable',
+            'information' => 'nullable',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $peserta = Peserta::find($validate['id']);
+            if (!$peserta) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Peserta not found',
+                ], 404);
+            }
+            $peserta->update($validate);
+            DB::commit();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Peserta berhasil diubah',
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error($th->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengubah peserta',
+            ], 500);
+        }
     }
 
     /**
