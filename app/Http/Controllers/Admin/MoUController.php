@@ -47,7 +47,7 @@ class MoUController extends Controller
             'document_number' => 'required',
             'document_name' => 'required',
             'length_of_contract' => 'required',
-            'type_of_contract' => 'required|array',
+            // 'type_of_contract' => 'required|array',
             'contract_value' => 'required|numeric',
             'description' => 'nullable|string',
             'MoU_path' => 'file|mimes:pdf|max:2048',
@@ -59,7 +59,7 @@ class MoUController extends Controller
                 $filePath = $file->store('MoU', 'public');
                 $validated['MoU_path'] = $filePath;
             }
-            $validated['type_of_contract'] = implode(',', $validated['type_of_contract']);
+            // $validated['type_of_contract'] = implode(',', $validated['type_of_contract']);
             $mou = MoU::create($validated);
             $mou->categories()->attach($request->category_ids);
             Alert::toast('MoU created successfully', 'success');

@@ -15,7 +15,7 @@ class MoU extends Model
         'document_number',
         'document_name',
         'length_of_contract',
-        'type_of_contract',
+        // 'type_of_contract',
         'mitra_id',
         'contract_value',
         'description',

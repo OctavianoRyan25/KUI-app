@@ -177,7 +177,7 @@
                 </div>
 
                 <!-- Jenis MoU -->
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <label class="text-gray-700 pl-2">Jenis MoU<span class="text-red-500">*</span></label>
                     <div class="flex flex-wrap gap-4 mt-2">
                         @foreach (['Tridharma', 'Promosi', 'Sharing Profit', 'Beasiswa', 'Pemanfaatan Fasilitas Universitas', 'Pemanfaatan SDM'] as $jenis)
@@ -191,7 +191,7 @@
                     @error('type_of_contract')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                     @enderror
-                </div>
+                </div> --}}
 
                 <!-- Kategori MoU -->
                 <div class="mb-4">
