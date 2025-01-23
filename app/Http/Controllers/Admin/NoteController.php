@@ -8,6 +8,7 @@ use App\Models\EventPhoto;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class NoteController extends Controller
@@ -123,5 +124,24 @@ class NoteController extends Controller
 
         Alert::toast('File uploaded successfully', 'success');
         return redirect()->back();
+    }
+
+    public function printPDF($id)
+    {
+        $notulensi = Note::with('event')->findOrFail($id);
+        $data = [
+            'notulensi' => $notulensi,
+            'present' => $notulensi->event->pesertas()->where('is_present', true)->count(),
+            'no_present' => $notulensi->event->pesertas()->where('is_present', false)->count()
+        ];
+        $pdf = PDF::loadView('admin.print_note', $data)
+            ->setPaper('A4', 'portrait')
+            ->setOptions([
+                'isHtml5ParserEnabled' => true,
+                'isPhpEnabled' => true,
+                'font' => 'Arial'
+            ]);
+
+        return $pdf->stream('notulensi-' . $notulensi->id . '.pdf');
     }
 }
