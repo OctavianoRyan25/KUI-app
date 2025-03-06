@@ -61,7 +61,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/note/{id}', [NoteController::class, 'update'])->name('admin.note.update');
     Route::post('/note/{event_id}/upload-photo', [NoteController::class, 'uploadPhoto'])->name('admin.uploadPhoto');
     Route::post('/note/{event_id}/upload-file', [NoteController::class, 'uploadFile'])->name('admin.uploadFile');
-    Route::get('/note/{event_id}/print', [NoteController::class, 'printPDF'])->name('admin.note.print');
+    Route::get('/note/{event_id}/print', [NoteController::class, 'printZIP'])->name('admin.note.print');
 
     Route::get('/peserta', [PesertaController::class, 'index'])->name('admin.peserta');
     Route::post('/peserta', [PesertaController::class, 'create'])->name('admin.peserta.store');
