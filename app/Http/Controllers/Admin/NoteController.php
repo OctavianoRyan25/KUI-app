@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\EventFile;
+use App\Models\EventPeserta;
 use App\Models\EventPhoto;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 use RealRashid\SweetAlert\Facades\Alert;
+use ZipArchive;
+use Illuminate\Support\Facades\Storage;
 
 class NoteController extends Controller
 {
@@ -123,5 +127,64 @@ class NoteController extends Controller
 
         Alert::toast('File uploaded successfully', 'success');
         return redirect()->back();
+    }
+
+    // public function printPDF($id)
+    // {
+    //     $notulensi = Note::with('event')->findOrFail($id);
+    //     $data = [
+    //         'notulensi' => $notulensi,
+    //         'present' => $notulensi->event->pesertas()->where('is_present', true)->count(),
+    //         'no_present' => $notulensi->event->pesertas()->where('is_present', false)->count()
+    //     ];
+    //     $pdf = PDF::loadView('admin.print_note', $data)
+    //         ->setPaper('A4', 'portrait')
+    //         ->setOptions([
+    //             'isHtml5ParserEnabled' => true,
+    //             'isPhpEnabled' => true,
+    //             'font' => 'Arial'
+    //         ]);
+
+    //     return $pdf->stream('notulensi-' . $notulensi->id . '.pdf');
+    // }
+
+    public function printZIP($id)
+    {
+        $notulensi = Note::with('event')->findOrFail($id);
+        $event_peserta = EventPeserta::with('events', 'pesertas')->where('event_id', $id)->get();
+        $data = [
+            'notulensi' => $notulensi,
+            'event_peserta' => $event_peserta,
+            'present' => $notulensi->event->pesertas()->where('is_present', true)->count(),
+            'no_present' => $notulensi->event->pesertas()->where('is_present', false)->count()
+        ];
+
+        $pdfNotulensi = PDF::loadView('admin.print_note', $data)
+            ->setPaper('A4', 'portrait')
+            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+        $pdfDaftarHadir = PDF::loadView('admin.print_daftar-hadir', $data)
+            ->setPaper('A4', 'portrait')
+            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+        $fileNotulensi = 'notulensi-' . $notulensi->id . '.pdf';
+        $fileDaftarHadir = 'daftar-hadir-' . $notulensi->id . '.pdf';
+        $zipFileName = 'event-' . $notulensi->id . '.zip';
+
+        Storage::put('temp/' . $fileNotulensi, $pdfNotulensi->output());
+        Storage::put('temp/' . $fileDaftarHadir, $pdfDaftarHadir->output());
+
+        $zip = new ZipArchive;
+        $zipPath = storage_path('app/temp/' . $zipFileName);
+
+        if ($zip->open($zipPath, ZipArchive::CREATE) === TRUE) {
+            $zip->addFile(storage_path('app/temp/' . $fileDaftarHadir), $fileDaftarHadir);
+            $zip->addFile(storage_path('app/temp/' . $fileNotulensi), $fileNotulensi);
+            $zip->close();
+        }
+
+        Storage::delete(['temp/' . $fileNotulensi, 'temp/' . $fileDaftarHadir]);
+
+        return response()->download($zipPath)->deleteFileAfterSend(true);
+        return $pdfDaftarHadir->stream('daftar-hadir-' . $notulensi->id . '.pdf');
     }
 }
